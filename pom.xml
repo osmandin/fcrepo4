@@ -57,6 +57,8 @@
     <module>fcrepo-serialization</module>
     <module>fcrepo-auth-oauth</module>
     <module>fcrepo-transform</module>
+    <module>fcrepo-storage-http</module>
+    
   </modules>
   <dependencyManagement>
     <dependencies>
