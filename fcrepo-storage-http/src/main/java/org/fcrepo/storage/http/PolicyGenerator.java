@@ -20,8 +20,14 @@ import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import java.io.IOException;
-import java.util.List;
+import org.fcrepo.AbstractResource;
+import org.fcrepo.binary.MimeTypePolicy;
+import org.fcrepo.binary.Policy;
+import org.fcrepo.session.InjectedSession;
+import org.modeshape.jcr.api.JcrTools;
+import org.slf4j.Logger;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.jcr.Node;
@@ -39,14 +45,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.fcrepo.AbstractResource;
-import org.fcrepo.binary.MimeTypePolicy;
-import org.fcrepo.binary.Policy;
-import org.fcrepo.session.InjectedSession;
-import org.modeshape.jcr.api.JcrTools;
-import org.slf4j.Logger;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import java.io.IOException;
+import java.util.List;
 
 @Component
 @Scope("prototype")
@@ -88,7 +88,7 @@ public class PolicyGenerator extends AbstractResource {
     }
 
     /**
-     * Post to store nodeType and hint
+     * POST to store nodeType and hint
      * 
      * @param request For now, follows pattern: mix:mimeType image/tiff
      *        store-hint
@@ -136,7 +136,7 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws PolicyTypeException
      */
-    private Policy getPolicyType(final String nodeType, final String itemType,
+    public Policy getPolicyType(final String nodeType, final String itemType,
             final String value) throws PolicyTypeException {
 
         switch (nodeType) {
@@ -190,12 +190,10 @@ public class PolicyGenerator extends AbstractResource {
             // null
             final List<Policy> sb =
                     PolicyDecisionService.getInstance().getActivePolicyTypes();
-            // see
-            // method
-            // impl.
+            // see method impl.
             if (sb == null) {
                 return Response.ok(
-                        "No mapping yet" + MediaType.APPLICATION_JSON).build();
+                        "No mapping yet!" + MediaType.APPLICATION_JSON).build();
             } else {
                 return Response.ok(sb.toString() + MediaType.APPLICATION_JSON)
                         .build();
@@ -203,7 +201,9 @@ public class PolicyGenerator extends AbstractResource {
         } catch (final Exception e) {
             throw e;
         } finally {
-            session.logout();
+            if (session != null) {
+                session.logout();
+            }
         }
     }
 

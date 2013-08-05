@@ -67,6 +67,12 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+    	<groupId>org.fcrepo</groupId>
+    	<artifactId>fcrepo-storage-http</artifactId>
+    	<version>4.0.0-alpha-2-SNAPSHOT</version>
+    	<type>bundle</type>
+    </dependency>
+    <dependency>
       <groupId>com.sun.jersey.contribs</groupId>
       <artifactId>jersey-spring</artifactId>
     </dependency>
@@ -80,9 +86,9 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
     </dependency>
-
+    
   </dependencies>
-
+  
   <build>
     <plugins>
       <plugin>
