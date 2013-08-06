@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fcrepo.integration;
+package org.fcrepo.binary;
 
 import java.io.ByteArrayInputStream;
 
@@ -23,6 +23,7 @@ import javax.jcr.Session;
 
 import org.fcrepo.binary.MimeTypePolicy;
 import org.fcrepo.binary.PolicyDecisionPoint;
+//import org.fcrepo.integration.AbstractIT;
 import org.fcrepo.services.DatastreamService;
 import org.fcrepo.services.ObjectService;
 import org.junit.Test;

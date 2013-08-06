@@ -19,6 +19,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import static org.mockito.Mockito.*;
+
 import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
 import java.net.URI;
@@ -37,7 +39,7 @@ import javax.jcr.Session;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.util.IOUtils;
 import org.fcrepo.Datastream;
-import org.fcrepo.binary.PolicyDecisionPoint;
+import org.fcrepo.services.StoragePolicy;
 import org.fcrepo.services.DatastreamService;
 import org.fcrepo.services.LowLevelStorageService;
 import org.fcrepo.services.ObjectService;
@@ -86,7 +88,7 @@ public class SelfHealingIT {
         datastreamService = new DatastreamService();
         datastreamService.setRepository(repo);
         datastreamService
-            .setStoragePolicyDecisionPoint(new PolicyDecisionPoint());
+            .setStoragePolicyDecisionPoint(mock (StoragePolicy.class));
         objectService = new ObjectService();
         objectService.setRepository(repo);
         lowLevelService = new LowLevelStorageService();

@@ -28,6 +28,8 @@ import javax.jcr.Node;
 import javax.jcr.Property;
 import javax.jcr.Session;
 
+import org.fcrepo.services.Policy;
+import org.fcrepo.services.StoragePolicy;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

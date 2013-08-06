@@ -16,7 +16,9 @@
 
 package org.fcrepo.binary;
 
+import org.fcrepo.services.Policy;
 import org.junit.Test;
+
 import javax.jcr.Node;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
