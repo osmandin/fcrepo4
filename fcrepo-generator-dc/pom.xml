@@ -95,6 +95,11 @@
       <artifactId>jersey-spring</artifactId>
       <scope>test</scope>
     </dependency>
+     <dependency>
+    		<groupId>org.fcrepo</groupId>
+    		<artifactId>fcrepo-storage-policy</artifactId>
+    		<version>4.0.0-alpha-2-SNAPSHOT</version>
+    </dependency>
 
     <!-- This dependency is for compile-time: it keeps this module independent of 
       any given choice of JAX-RS implementation. It must be _after_ the test gear. Otherwise 
@@ -104,6 +109,7 @@
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
     </dependency>
+   
   </dependencies>
 
   <build>

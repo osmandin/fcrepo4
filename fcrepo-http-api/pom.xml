@@ -137,6 +137,11 @@
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
     </dependency>
+    <dependency>
+    		<groupId>org.fcrepo</groupId>
+    		<artifactId>fcrepo-storage-policy</artifactId>
+    		<version>4.0.0-alpha-2-SNAPSHOT</version>
+    </dependency>
   </dependencies>
 
   <build>
