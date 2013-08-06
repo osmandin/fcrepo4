@@ -15,14 +15,15 @@
  */
 package org.fcrepo.binary;
 
+import static org.modeshape.jcr.api.JcrConstants.JCR_CONTENT;
+import static org.modeshape.jcr.api.JcrConstants.JCR_MIME_TYPE;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import org.fcrepo.services.Policy;
 import org.slf4j.Logger;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-
-import static org.modeshape.jcr.api.JcrConstants.JCR_CONTENT;
-import static org.modeshape.jcr.api.JcrConstants.JCR_MIME_TYPE;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * A binary storage policy based on the mime type of the node
@@ -52,20 +53,20 @@ public class MimeTypePolicy implements Policy {
     @Override
     public String evaluatePolicy(final Node n) {
         LOGGER.debug("Evaluating MimeTypePolicy ({} -> {}) for {} ",
-                            mimeType, hint, n);
+                mimeType, hint, n);
         try {
             final String nodeMimeType = n.getNode(JCR_CONTENT)
-                                                .getProperty(JCR_MIME_TYPE)
-                                                .getString();
+                    .getProperty(JCR_MIME_TYPE)
+                    .getString();
 
             LOGGER.trace("Found mime type {}", nodeMimeType);
 
             if (nodeMimeType.equals(mimeType)) {
                 LOGGER.trace("{} matched this mime type." +
-                                     "Returning hint {} ", mimeType, hint);
+                        "Returning hint {} ", mimeType, hint);
                 return hint;
             }
-        } catch (RepositoryException e) {
+        } catch (final RepositoryException e) {
             LOGGER.warn("Got Exception evaluating policy: {}", e);
             return null;
         }

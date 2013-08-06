@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.fcrepo.storage.http;
+package org.fcrepo.binary;
+
+import org.fcrepo.services.Policy;
+import org.fcrepo.services.StoragePolicy;
 
 import java.util.List;
-
-import org.fcrepo.binary.Policy;
-import org.fcrepo.binary.PolicyDecisionPoint;
 
 /* TODO NOTE wrapper service class that manages policy storage decisions.
  * implementation needs to be fleshed out & contract with org.fcrepo.binary
@@ -32,7 +32,7 @@ public class PolicyDecisionService {
     /**
      * 
      */
-    private final PolicyDecisionPoint storagePolicyDecisionPoint =
+    private final StoragePolicy storagePolicyDecisionPoint =
             new PolicyDecisionPoint();
 
     final private static PolicyDecisionService service =

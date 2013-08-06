@@ -44,11 +44,6 @@
       <version>${project.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.fcrepo</groupId>
-      <artifactId>fcrepo-storage-policy</artifactId>
-      <version>${project.version}</version>
-    </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>

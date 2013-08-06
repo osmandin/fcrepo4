@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package org.fcrepo.storage.http;
+package org.fcrepo.binary;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.fcrepo.AbstractResource;
-import org.fcrepo.binary.MimeTypePolicy;
-import org.fcrepo.binary.Policy;
+import org.fcrepo.services.Policy;
 import org.fcrepo.session.InjectedSession;
 import org.modeshape.jcr.api.JcrTools;
 import org.slf4j.Logger;

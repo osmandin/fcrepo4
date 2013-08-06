@@ -13,20 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fcrepo.binary;
+
+package org.fcrepo.services;
 
 import javax.jcr.Node;
 
-/**
- * A binary storage policy definition and evaluation machinery
- * @author cbeer
- * @date Apr 25, 2013
- */
-public interface Policy {
+import java.util.List;
+
+public interface StoragePolicy {
 
     /**
-     * Evaluate the policy; if the policy matches, return the
-     * binary storage hint. If not, return null.
+     * Add a new storage policy
+     * 
+     * @param p org.fcrepo.services.Policy object
      */
-    String evaluatePolicy(Node n);
+    public abstract void addPolicy(Policy p);
+
+    /**
+     * Given a JCR node (likely a jcr:content node), determine which storage
+     * policy should apply
+     * 
+     * @param n
+     * @return
+     */
+    public abstract String evaluatePolicies(Node n);
+
+    /**
+     * Explicitly set the policies this PDP should use
+     * 
+     * @param policies
+     */
+    public abstract void setPolicies(List<Policy> policies);
+
 }

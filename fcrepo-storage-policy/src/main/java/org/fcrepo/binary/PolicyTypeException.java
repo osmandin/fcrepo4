@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.fcrepo.storage.http;
+package org.fcrepo.binary;
 
 /*
  * Note: Mainly for reporting conversion errors & future use

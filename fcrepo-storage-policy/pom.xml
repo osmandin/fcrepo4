@@ -37,6 +37,17 @@
       <version>3.0.1</version>
       <scope>test</scope>
     </dependency>
+       <dependency>
+      <groupId>com.sun.jersey.jersey-test-framework</groupId>
+      <artifactId>jersey-test-framework-grizzly2</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-servlet</artifactId>
+      <version>${jersey.version}</version>
+      <scope>test</scope>
+    </dependency>
 
 
     <!-- This dependency is for compile-time: it keeps this module independent 
@@ -46,6 +57,12 @@
     <dependency>
       <groupId>javax</groupId>
       <artifactId>javaee-api</artifactId>
+    </dependency>
+    <dependency>
+    		<groupId>org.fcrepo</groupId>
+    		<artifactId>fcrepo-http-commons</artifactId>
+    		<version>4.0.0-alpha-2-SNAPSHOT</version>
+    		<type>bundle</type>
     </dependency>
   </dependencies>
 

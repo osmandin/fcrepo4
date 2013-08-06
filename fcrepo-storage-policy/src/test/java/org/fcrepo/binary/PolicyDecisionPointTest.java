@@ -33,7 +33,7 @@ import org.junit.Test;
 
 public class PolicyDecisionPointTest {
 
-    static PolicyDecisionPoint pt;
+    static StoragePolicy pt;
 
     static private String dummyHint;
 
