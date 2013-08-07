@@ -22,9 +22,11 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import org.fcrepo.AbstractResource;
 import org.fcrepo.services.Policy;
+import org.fcrepo.services.StoragePolicyDecisionPoint;
 import org.fcrepo.session.InjectedSession;
 import org.modeshape.jcr.api.JcrTools;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +47,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 @Scope("prototype")
@@ -58,6 +59,9 @@ public class PolicyGenerator extends AbstractResource {
     @Context
     private HttpServletRequest request;
 
+    @Autowired(required = true)
+    StoragePolicyDecisionPoint storagePolicyDecisionPoint;
+
     private static final Logger LOGGER = getLogger(PolicyGenerator.class);
 
     /**
@@ -68,13 +72,13 @@ public class PolicyGenerator extends AbstractResource {
      */
     @PostConstruct
     public void setUpRepositoryConfiguration() throws RepositoryException,
-    IOException {
+        IOException {
         final JcrTools jcrTools = new JcrTools(true);
         Session session = null;
         try {
             session = sessions.getSession();
             jcrTools.findOrCreateNode(session,
-                    "/fedora:system/fedora:storage_policy", null);
+                "/fedora:system/fedora:storage_policy", null);
             session.save();
             LOGGER.debug("Created configuration node");
         } catch (final Exception e) {
@@ -100,21 +104,20 @@ public class PolicyGenerator extends AbstractResource {
     @POST
     @Consumes(APPLICATION_FORM_URLENCODED)
     // @Produces(APPLICATION_JSON)
-    public
-    Response postPropertyType(final String request) throws Exception {
+    public Response post(final String request) throws Exception {
 
         final JcrTools jcrTools = new JcrTools(true);
         try {
             LOGGER.debug("POST Received request param: {}", request);
             final Node node =
-                    jcrTools.findOrCreateNode(session,
-                            "/fedora:system/fedora:storage_policy", "test");
+                jcrTools.findOrCreateNode(session,
+                    "/fedora:system/fedora:storage_policy", "test");
             final String[] str = request.split(" "); // simple split for now
             node.setProperty(str[0], new String[] {str[1] + ":" + str[2]});
 
             // instantiate PolicyType based on ... mimeType->MimeType()
-            PolicyDecisionService.getInstance().add(
-                    getPolicyType(str[0], str[1], str[2]));
+            storagePolicyDecisionPoint.addPolicy(getPolicyType(str[0], str[1],
+                str[2]));
             session.save();
             LOGGER.debug("Saved PDS hint {}", request);
             return Response.ok().build();
@@ -136,7 +139,7 @@ public class PolicyGenerator extends AbstractResource {
      * @throws PolicyTypeException
      */
     public Policy getPolicyType(final String nodeType, final String itemType,
-            final String value) throws PolicyTypeException {
+        final String value) throws PolicyTypeException {
 
         switch (nodeType) {
             case "mix:mimeType":
@@ -162,11 +165,13 @@ public class PolicyGenerator extends AbstractResource {
         try {
             LOGGER.debug("Deleting node property{}", request);
             final Node node =
-                    jcrTools.findOrCreateNode(session,
-                            "/fedora:system/fedora:storage_policy", "test");
+                jcrTools.findOrCreateNode(session,
+                    "/fedora:system/fedora:storage_policy", "test");
             final String[] str = request.split(" ");
             node.getProperty(str[0]).remove();
             session.save();
+            storagePolicyDecisionPoint.removePolicy(getPolicyType(str[0],
+                str[1], str[2]));
             return Response.ok().build();
         } finally {
             session.logout();
@@ -174,9 +179,7 @@ public class PolicyGenerator extends AbstractResource {
     }
 
     /**
-     * TODO Future enhancement. Impl. would depend on the contract with
-     * org.fcrepo.binary.PolicyDecisionPoint. Print hints by type (e.g.
-     * "mimeType: => tiff_store, jpg_store) from JCR
+     * TODO prints org.fcrepo.binary.PolicyDecisionPoint for now
      * 
      * @param policyType
      * @return
@@ -184,26 +187,13 @@ public class PolicyGenerator extends AbstractResource {
      */
     @GET
     @Produces(APPLICATION_JSON)
-    public Response getHintsByPolicyType(final String type) throws Exception {
-        try {
-            // null
-            final List<Policy> sb =
-                    PolicyDecisionService.getInstance().getActivePolicyTypes();
-            // see method impl.
-            if (sb == null) {
-                return Response.ok(
-                        "No mapping yet!" + MediaType.APPLICATION_JSON).build();
-            } else {
-                return Response.ok(sb.toString() + MediaType.APPLICATION_JSON)
-                        .build();
-            }
-        } catch (final Exception e) {
-            throw e;
-        } finally {
-            if (session != null) {
-                session.logout();
-            }
+    public Response printActiveStoragePolicies() throws Exception {
+        if (storagePolicyDecisionPoint == null) {
+            return Response.serverError().build();
         }
+        return Response.ok(
+            storagePolicyDecisionPoint.toString() + MediaType.APPLICATION_JSON)
+            .build();
     }
 
     /**
@@ -214,10 +204,10 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws RepositoryException
      */
-    public boolean checkPolicyType(final Session session,
-            final String type) throws RepositoryException {
+    public boolean checkPolicyType(final Session session, final String type)
+        throws RepositoryException {
         final NodeTypeIterator iterator =
-                session.getWorkspace().getNodeTypeManager().getAllNodeTypes();
+            session.getWorkspace().getNodeTypeManager().getAllNodeTypes();
         while (iterator.hasNext()) {
             if (iterator.next().toString().contains(type)) { // TODO or equals
                 return true;

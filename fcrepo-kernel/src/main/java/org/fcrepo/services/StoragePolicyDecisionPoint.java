@@ -20,7 +20,7 @@ import javax.jcr.Node;
 
 import java.util.List;
 
-public interface StoragePolicy {
+public interface StoragePolicyDecisionPoint {
 
     /**
      * Add a new storage policy
@@ -37,6 +37,12 @@ public interface StoragePolicy {
      * @return
      */
     public abstract String evaluatePolicies(Node n);
+
+    /**
+     * Remove a storage policy
+     * @param p org.fcrepo.services.Policy object
+     */
+    public abstract void removePolicy(Policy p);
 
     /**
      * Explicitly set the policies this PDP should use

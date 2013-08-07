@@ -29,13 +29,13 @@ import javax.jcr.Property;
 import javax.jcr.Session;
 
 import org.fcrepo.services.Policy;
-import org.fcrepo.services.StoragePolicy;
+import org.fcrepo.services.StoragePolicyDecisionPoint;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class PolicyDecisionPointTest {
 
-    static StoragePolicy pt;
+    static StoragePolicyDecisionPoint pt;
 
     static private String dummyHint;
 

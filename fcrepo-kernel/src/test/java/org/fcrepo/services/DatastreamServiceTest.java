@@ -45,7 +45,7 @@ import javax.jcr.Session;
 import javax.jcr.nodetype.NodeType;
 
 import org.fcrepo.Datastream;
-import org.fcrepo.services.StoragePolicy;
+import org.fcrepo.services.StoragePolicyDecisionPoint;
 import org.fcrepo.rdf.GraphSubjects;
 import org.fcrepo.services.functions.CheckCacheEntryFixity;
 import org.fcrepo.utils.FedoraJcrTypes;
@@ -120,7 +120,7 @@ public class DatastreamServiceTest implements FedoraJcrTypes {
         when(mockContent.setProperty(JCR_DATA, mockBinary))
                 .thenReturn(mockData);
         when(mockContent.getProperty(JCR_DATA)).thenReturn(mockData);
-        final StoragePolicy pdp = mock(StoragePolicy.class);
+        final StoragePolicyDecisionPoint pdp = mock(StoragePolicyDecisionPoint.class);
         when(pdp.evaluatePolicies(mockNode)).thenReturn(null);
         testObj.setStoragePolicyDecisionPoint(pdp);
         mockStatic(FedoraTypesUtils.class);

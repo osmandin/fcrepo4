@@ -19,7 +19,7 @@ package org.fcrepo.binary;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import org.fcrepo.services.Policy;
-import org.fcrepo.services.StoragePolicy;
+import org.fcrepo.services.StoragePolicyDecisionPoint;
 import org.slf4j.Logger;
 
 import javax.jcr.Node;
@@ -34,7 +34,7 @@ import java.util.List;
  * @author cbeer
  * @date Apr 25, 2013
  */
-public class PolicyDecisionPoint implements StoragePolicy {
+public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     private static final Logger LOGGER = getLogger(MimeTypePolicy.class);
 
@@ -48,7 +48,8 @@ public class PolicyDecisionPoint implements StoragePolicy {
         policies = new ArrayList<Policy>();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
      */
     @Override
@@ -56,7 +57,8 @@ public class PolicyDecisionPoint implements StoragePolicy {
         policies.add(p);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
      * @see org.fcrepo.binary.StoragePolicy#evaluatePolicies(javax.jcr.Node)
      */
     @Override
@@ -70,13 +72,28 @@ public class PolicyDecisionPoint implements StoragePolicy {
         return null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
+     */
+    @Override
+    public void removePolicy(final Policy p) {
+        policies.remove(p);
+    }
+
+    /*
+     * (non-Javadoc)
      * @see org.fcrepo.binary.StoragePolicy#setPolicies(java.util.List)
      */
     @Override
     public void setPolicies(final List<Policy> policies) {
         LOGGER.debug("Adding policies to " + "PolicyDecisionPoint: {}",
-                policies.toString());
+            policies.toString());
         this.policies = policies;
+    }
+
+    @Override
+    public String toString() {
+        return "PolicyDecisionPoint [policies=" + policies + "]";
     }
 }

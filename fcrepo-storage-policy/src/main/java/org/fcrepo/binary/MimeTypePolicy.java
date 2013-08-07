@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.fcrepo.binary;
 
 import static org.modeshape.jcr.api.JcrConstants.JCR_CONTENT;
@@ -27,6 +28,7 @@ import javax.jcr.RepositoryException;
 
 /**
  * A binary storage policy based on the mime type of the node
+ * 
  * @author cbeer
  * @date Apr 25, 2013
  */
@@ -46,24 +48,28 @@ public class MimeTypePolicy implements Policy {
         this.hint = hint;
     }
 
+    @Override
+    public String toString() {
+        return "MimeTypePolicy [mimeType=" + mimeType + ", hint=" + hint + "]";
+    }
+
     /**
      * Evaluate the mime type policy. If the content node's mime type matches
      * this policy's mime type, return the hint.
      */
     @Override
     public String evaluatePolicy(final Node n) {
-        LOGGER.debug("Evaluating MimeTypePolicy ({} -> {}) for {} ",
-                mimeType, hint, n);
+        LOGGER.debug("Evaluating MimeTypePolicy ({} -> {}) for {} ", mimeType,
+            hint, n);
         try {
-            final String nodeMimeType = n.getNode(JCR_CONTENT)
-                    .getProperty(JCR_MIME_TYPE)
-                    .getString();
+            final String nodeMimeType =
+                n.getNode(JCR_CONTENT).getProperty(JCR_MIME_TYPE).getString();
 
             LOGGER.trace("Found mime type {}", nodeMimeType);
 
             if (nodeMimeType.equals(mimeType)) {
-                LOGGER.trace("{} matched this mime type." +
-                        "Returning hint {} ", mimeType, hint);
+                LOGGER.trace("{} matched this mime type."
+                    + "Returning hint {} ", mimeType, hint);
                 return hint;
             }
         } catch (final RepositoryException e) {

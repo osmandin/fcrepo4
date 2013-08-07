@@ -22,6 +22,8 @@
     </bean>
 
     <bean class="org.fcrepo.session.SessionFactory"/>
+    <bean class="org.fcrepo.binary.PolicyDecisionPoint"/>
+    
 
     <context:component-scan base-package="org.fcrepo.services, org.modeshape.web.jcr.rest, org.fcrepo.api, org.fcrepo.serialization, org.fcrepo.responses, org.fcrepo.exceptionhandlers, org.fcrepo.audit, org.fcrepo.url, org.fcrepo.binary"/>
 

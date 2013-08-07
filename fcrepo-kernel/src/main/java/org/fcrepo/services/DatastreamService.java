@@ -66,7 +66,7 @@ import com.hp.hpl.jena.update.GraphStoreFactory;
 public class DatastreamService extends RepositoryService {
 
     @Autowired(required = false)
-    StoragePolicy storagePolicyDecisionPoint;
+    StoragePolicyDecisionPoint storagePolicyDecisionPoint;
 
     @Autowired
     private LowLevelStorageService llStoreService;
@@ -301,7 +301,7 @@ public class DatastreamService extends RepositoryService {
      * 
      * @param pdp
      */
-    public void setStoragePolicyDecisionPoint(final StoragePolicy pdp) {
+    public void setStoragePolicyDecisionPoint(final StoragePolicyDecisionPoint pdp) {
         this.storagePolicyDecisionPoint = pdp;
     }
 
@@ -311,7 +311,7 @@ public class DatastreamService extends RepositoryService {
      * 
      * @return a PolicyDecisionPoint
      */
-    private StoragePolicy getStoragePolicyDecisionPoint() {
+    private StoragePolicyDecisionPoint getStoragePolicyDecisionPoint() {
         if (storagePolicyDecisionPoint == null) {
           //  storagePolicyDecisionPoint = new PolicyDecisionPoint();
         }

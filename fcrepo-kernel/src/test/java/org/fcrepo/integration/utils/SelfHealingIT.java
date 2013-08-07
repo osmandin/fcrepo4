@@ -39,7 +39,7 @@ import javax.jcr.Session;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.util.IOUtils;
 import org.fcrepo.Datastream;
-import org.fcrepo.services.StoragePolicy;
+import org.fcrepo.services.StoragePolicyDecisionPoint;
 import org.fcrepo.services.DatastreamService;
 import org.fcrepo.services.LowLevelStorageService;
 import org.fcrepo.services.ObjectService;
@@ -88,7 +88,7 @@ public class SelfHealingIT {
         datastreamService = new DatastreamService();
         datastreamService.setRepository(repo);
         datastreamService
-            .setStoragePolicyDecisionPoint(mock (StoragePolicy.class));
+            .setStoragePolicyDecisionPoint(mock (StoragePolicyDecisionPoint.class));
         objectService = new ObjectService();
         objectService.setRepository(repo);
         lowLevelService = new LowLevelStorageService();

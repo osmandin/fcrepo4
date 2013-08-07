@@ -77,10 +77,10 @@ public class PolicyGeneratorTest {
     }
 
     @Test
-    public void testHintsByPolicyType() throws Exception {
+    public void testActivePoliciesAtInit() throws Exception {
         PolicyGenerator obj = new PolicyGenerator();
-        Response actual = obj.getHintsByPolicyType("image/tiff");
-        assertEquals(actual.getStatus(), 200);
+        Response actual = obj.printActiveStoragePolicies();
+        assertEquals(actual.getStatus(), 500);
     }
 
     @Test

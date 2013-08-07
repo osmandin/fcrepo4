@@ -35,7 +35,7 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import org.fcrepo.services.StoragePolicy;
+import org.fcrepo.services.StoragePolicyDecisionPoint;
 import org.fcrepo.exception.InvalidChecksumException;
 import org.fcrepo.utils.ContentDigest;
 import org.fcrepo.utils.FedoraJcrTypes;
@@ -125,7 +125,7 @@ public class Datastream extends FedoraResource implements FedoraJcrTypes {
      */
     public void setContent(final InputStream content, final String contentType,
                            final URI checksum,
-                           StoragePolicy storagePolicyDecisionPoint)
+                           StoragePolicyDecisionPoint storagePolicyDecisionPoint)
         throws RepositoryException, InvalidChecksumException {
 
         final Node contentNode =
