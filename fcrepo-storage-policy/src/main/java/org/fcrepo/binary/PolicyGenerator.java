@@ -34,7 +34,8 @@ import javax.annotation.PostConstruct;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.nodetype.NodeTypeIterator;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.nodetype.NodeType;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -43,7 +44,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import java.io.IOException;
@@ -103,7 +103,6 @@ public class PolicyGenerator extends AbstractResource {
 
     @POST
     @Consumes(APPLICATION_FORM_URLENCODED)
-    // @Produces(APPLICATION_JSON)
     public Response post(final String request) throws Exception {
 
         final JcrTools jcrTools = new JcrTools(true);
@@ -113,14 +112,20 @@ public class PolicyGenerator extends AbstractResource {
                 jcrTools.findOrCreateNode(session,
                     "/fedora:system/fedora:storage_policy", "test");
             final String[] str = request.split(" "); // simple split for now
-            node.setProperty(str[0], new String[] {str[1] + ":" + str[2]});
+            if (isValidNodeTypeProperty(session, str[0]) ||
+                isValidConfigurationProperty(str[0])) {
+                node.setProperty(str[0], new String[] {str[1] + ":" + str[2]});
 
-            // instantiate PolicyType based on ... mimeType->MimeType()
-            storagePolicyDecisionPoint.addPolicy(getPolicyType(str[0], str[1],
-                str[2]));
-            session.save();
-            LOGGER.debug("Saved PDS hint {}", request);
-            return Response.ok().build();
+                // instantiate PolicyType based on ... mimeType->MimeType()
+                storagePolicyDecisionPoint.addPolicy(getPolicyType(str[0],
+                    str[1], str[2]));
+                session.save();
+                LOGGER.debug("Saved PDS hint {}", request);
+                return Response.ok().build();
+            } else {
+                throw new PolicyTypeException(
+                    "Invalid property type specified.");
+            }
         } catch (final Exception e) {
             throw e;
         } finally {
@@ -129,8 +134,9 @@ public class PolicyGenerator extends AbstractResource {
     }
 
     /**
-     * For nodeType n get org.fcrepo.binary.Policy implementation. (Could use a
-     * hashmap etc if all Policy o have minimal behavior).
+     * For nodeType n or runtime property p get org.fcrepo.binary.Policy
+     * implementation. Note: Signature might need to change, or a more
+     * sophisticated method used, as implementation evolves.
      * 
      * @param nodeType
      * @param itemType
@@ -138,10 +144,12 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws PolicyTypeException
      */
-    public Policy getPolicyType(final String nodeType, final String itemType,
-        final String value) throws PolicyTypeException {
+    public Policy getPolicyType(final String propertyType,
+        final String itemType, final String value) throws PolicyTypeException {
 
-        switch (nodeType) {
+        switch (propertyType) {
+            case NodeType.MIX_MIMETYPE:
+                return new MimeTypePolicy(itemType, value);
             case "mix:mimeType":
                 return new MimeTypePolicy(itemType, value);
             default:
@@ -168,11 +176,19 @@ public class PolicyGenerator extends AbstractResource {
                 jcrTools.findOrCreateNode(session,
                     "/fedora:system/fedora:storage_policy", "test");
             final String[] str = request.split(" ");
-            node.getProperty(str[0]).remove();
-            session.save();
-            storagePolicyDecisionPoint.removePolicy(getPolicyType(str[0],
-                str[1], str[2]));
-            return Response.ok().build();
+            if (isValidNodeTypeProperty(session, str[0]) ||
+                isValidConfigurationProperty(str[0])) {
+
+                node.getProperty(str[0]).remove();
+                session.save();
+                storagePolicyDecisionPoint.removePolicy(getPolicyType(str[0],
+                    str[1], str[2]));
+                return Response.ok().build();
+            } else {
+                throw new PolicyTypeException(
+                    "Invalid property type specified.");
+            }
+
         } finally {
             session.logout();
         }
@@ -191,9 +207,7 @@ public class PolicyGenerator extends AbstractResource {
         if (storagePolicyDecisionPoint == null) {
             return Response.serverError().build();
         }
-        return Response.ok(
-            storagePolicyDecisionPoint.toString() + MediaType.APPLICATION_JSON)
-            .build();
+        return Response.ok(storagePolicyDecisionPoint.toString()).build();
     }
 
     /**
@@ -204,15 +218,27 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws RepositoryException
      */
-    public boolean checkPolicyType(final Session session, final String type)
-        throws RepositoryException {
-        final NodeTypeIterator iterator =
-            session.getWorkspace().getNodeTypeManager().getAllNodeTypes();
-        while (iterator.hasNext()) {
-            if (iterator.next().toString().contains(type)) { // TODO or equals
-                return true;
-            }
+    public boolean isValidNodeTypeProperty(final Session session,
+        final String type) throws RepositoryException {
+        try {
+            return session.getWorkspace().getNodeTypeManager()
+                .getNodeType(type).getName().equals(type) ? true : false;
+        } catch (NoSuchNodeTypeException e) {
+            LOGGER.debug("No corresponding Node type found for: {}", type);
+            return false;
         }
+    }
+
+    /**
+     * Consult some list of configuration of non JCR properties (e.g. list of
+     * applicable runtime configurations)
+     * 
+     * @return
+     * @throws PolicyTypeException
+     */
+    public boolean isValidConfigurationProperty(String property)
+        throws PolicyTypeException {
+        // TODO
         return false;
     }
 }
