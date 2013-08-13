@@ -36,7 +36,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.fcrepo.kernel.Datastream;
-import org.fcrepo.storage.policy.PolicyDecisionPoint;
 import org.fcrepo.kernel.exception.InvalidChecksumException;
 import org.fcrepo.kernel.rdf.GraphProperties;
 import org.fcrepo.kernel.rdf.GraphSubjects;
@@ -66,7 +65,7 @@ import com.hp.hpl.jena.update.GraphStoreFactory;
 public class DatastreamService extends RepositoryService {
 
     @Autowired(required = false)
-    PolicyDecisionPoint storagePolicyDecisionPoint;
+    StoragePolicyDecisionPoint storagePolicyDecisionPoint;
 
     @Autowired
     private LowLevelStorageService llStoreService;
@@ -311,7 +310,7 @@ public class DatastreamService extends RepositoryService {
      * 
      * @param pdp
      */
-    public void setStoragePolicyDecisionPoint(final PolicyDecisionPoint pdp) {
+    public void setStoragePolicyDecisionPoint(final StoragePolicyDecisionPoint pdp) {
         this.storagePolicyDecisionPoint = pdp;
     }
 
@@ -321,9 +320,9 @@ public class DatastreamService extends RepositoryService {
      * 
      * @return a PolicyDecisionPoint
      */
-    private PolicyDecisionPoint getStoragePolicyDecisionPoint() {
+    private StoragePolicyDecisionPoint getStoragePolicyDecisionPoint() {
         if (storagePolicyDecisionPoint == null) {
-            storagePolicyDecisionPoint = new PolicyDecisionPoint();
+          //  storagePolicyDecisionPoint = new PolicyDecisionPoint();
         }
 
         return storagePolicyDecisionPoint;

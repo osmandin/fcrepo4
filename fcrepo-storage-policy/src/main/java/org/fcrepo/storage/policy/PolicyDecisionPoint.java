@@ -16,12 +16,16 @@
 
 package org.fcrepo.storage.policy;
 
-import javax.jcr.Node;
-import java.util.ArrayList;
-import java.util.List;
+import static org.slf4j.LoggerFactory.getLogger;
+
+import org.fcrepo.kernel.services.Policy;
+import org.fcrepo.kernel.services.StoragePolicyDecisionPoint;
 import org.slf4j.Logger;
 
-import static org.slf4j.LoggerFactory.getLogger;
+import javax.jcr.Node;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Service that evaluates a set of storage policies for an object and provides
@@ -30,7 +34,7 @@ import static org.slf4j.LoggerFactory.getLogger;
  * @author cbeer
  * @date Apr 25, 2013
  */
-public class PolicyDecisionPoint {
+public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     private static final Logger LOGGER = getLogger(MimeTypePolicy.class);
 
@@ -44,22 +48,20 @@ public class PolicyDecisionPoint {
         policies = new ArrayList<Policy>();
     }
 
-    /**
-     * Add a new storage policy
-     * 
-     * @param p
+    /*
+     * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
      */
+    @Override
     public void addPolicy(final Policy p) {
         policies.add(p);
     }
 
-    /**
-     * Given a JCR node (likely a jcr:content node), determine which storage
-     * policy should apply
-     * 
-     * @param n
-     * @return
+    /*
+     * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#evaluatePolicies(javax.jcr.Node)
      */
+    @Override
     public String evaluatePolicies(final Node n) {
         for (final Policy p : policies) {
             final String h = p.evaluatePolicy(n);
@@ -70,14 +72,59 @@ public class PolicyDecisionPoint {
         return null;
     }
 
-    /**
-     * Explicitly set the policies this PDP should use
-     * 
-     * @param policies
+    /*
+     * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
      */
+    @Override
+    public void removePolicy(final Policy p) {
+        policies.remove(p);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
+     */
+    @Override
+    public void removeAll() {
+        policies.clear();
+    }
+
+    /**
+     * For now: simple contains implementation
+     * 
+     * @param propertyType
+     */
+    @Override
+    public boolean contains(Policy p) {
+        return policies.contains(p) ? true : false;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#setPolicies(java.util.List)
+     */
+    @Override
     public void setPolicies(final List<Policy> policies) {
         LOGGER.debug("Adding policies to " + "PolicyDecisionPoint: {}",
-                policies.toString());
+            policies.toString());
         this.policies = policies;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "PolicyDecisionPoint [policies=" + policies + "]";
+    }
+
+    /**
+     * @return policies size
+     */
+    @Override
+    public int size() {
+        return policies.size();
     }
 }

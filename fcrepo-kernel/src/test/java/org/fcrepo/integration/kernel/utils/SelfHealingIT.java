@@ -37,7 +37,7 @@ import javax.jcr.Session;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.poi.util.IOUtils;
 import org.fcrepo.kernel.Datastream;
-import org.fcrepo.storage.policy.PolicyDecisionPoint;
+import org.fcrepo.kernel.services.StoragePolicyDecisionPoint;
 import org.fcrepo.kernel.services.DatastreamService;
 import org.fcrepo.kernel.services.LowLevelStorageService;
 import org.fcrepo.kernel.services.ObjectService;
@@ -54,6 +54,7 @@ import org.modeshape.jcr.JcrRepositoryFactory;
 import org.modeshape.jcr.api.JcrConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class SelfHealingIT {
@@ -67,6 +68,9 @@ public class SelfHealingIT {
     private ObjectService objectService;
 
     private LowLevelStorageService lowLevelService;
+    
+    @Autowired(required = false)
+    StoragePolicyDecisionPoint storagePolicyDecisionPoint;
 
     @Before
     public void setLogger() {
@@ -86,7 +90,7 @@ public class SelfHealingIT {
         datastreamService = new DatastreamService();
         datastreamService.setRepository(repo);
         datastreamService
-            .setStoragePolicyDecisionPoint(new PolicyDecisionPoint());
+            .setStoragePolicyDecisionPoint(storagePolicyDecisionPoint);
         objectService = new ObjectService();
         objectService.setRepository(repo);
         lowLevelService = new LowLevelStorageService();
