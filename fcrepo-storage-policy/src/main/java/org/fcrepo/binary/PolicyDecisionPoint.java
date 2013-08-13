@@ -83,6 +83,25 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     /*
      * (non-Javadoc)
+     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
+     */
+    @Override
+    public void removeAll() {
+        policies.clear();
+    }
+
+    /**
+     * For now: simple contains implementation
+     * 
+     * @param propertyType
+     */
+    @Override
+    public boolean contains(Policy p) {
+        return policies.contains(p) ? true : false;
+    }
+
+    /*
+     * (non-Javadoc)
      * @see org.fcrepo.binary.StoragePolicy#setPolicies(java.util.List)
      */
     @Override
@@ -92,8 +111,20 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
         this.policies = policies;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "PolicyDecisionPoint [policies=" + policies + "]";
+    }
+
+    /**
+     * @return policies size
+     */
+    @Override
+    public int size() {
+        return policies.size();
     }
 }

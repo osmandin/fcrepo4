@@ -79,4 +79,50 @@ public class MimeTypePolicy implements Policy {
 
         return null;
     }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (hint == null ? 0 : hint.hashCode());
+        result = prime * result + (mimeType == null ? 0 : mimeType.hashCode());
+        return result;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        MimeTypePolicy other = (MimeTypePolicy) obj;
+        if (hint == null) {
+            if (other.hint != null) {
+                return false;
+            }
+        } else if (!hint.equals(other.hint)) {
+            return false;
+        }
+        if (mimeType == null) {
+            if (other.mimeType != null) {
+                return false;
+            }
+        } else if (!mimeType.equals(other.mimeType)) {
+            return false;
+        }
+        return true;
+    }
 }

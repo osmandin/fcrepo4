@@ -20,6 +20,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.slf4j.LoggerFactory.getLogger;
 
+import org.apache.commons.lang.StringUtils;
 import org.fcrepo.AbstractResource;
 import org.fcrepo.services.Policy;
 import org.fcrepo.services.StoragePolicyDecisionPoint;
@@ -29,6 +30,7 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+//import org.springframework.validation.annotation.Validated;
 
 import javax.annotation.PostConstruct;
 import javax.jcr.Node;
@@ -42,6 +44,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -95,30 +98,31 @@ public class PolicyGenerator extends AbstractResource {
      * 
      * @param request For now, follows pattern: mix:mimeType image/tiff
      *        store-hint
-     * @return status TODO non JCR abstraction TODO input specification using
-     *         PDL, and content under something like
-     *         info:fedora/fedora-system:def/internal# TODO property defn type
-     *         should allow multiple values
+     * @return status
      */
 
     @POST
     @Consumes(APPLICATION_FORM_URLENCODED)
     public Response post(final String request) throws Exception {
-
+        LOGGER.debug("POST Received request param: {}", request);
         final JcrTools jcrTools = new JcrTools(true);
+        final String[] str = StringUtils.split(request); // simple split for now
+        validateArgs(str.length);
         try {
-            LOGGER.debug("POST Received request param: {}", request);
             final Node node =
                 jcrTools.findOrCreateNode(session,
                     "/fedora:system/fedora:storage_policy", "test");
-            final String[] str = request.split(" "); // simple split for now
             if (isValidNodeTypeProperty(session, str[0]) ||
                 isValidConfigurationProperty(str[0])) {
                 node.setProperty(str[0], new String[] {str[1] + ":" + str[2]});
 
-                // instantiate PolicyType based on ... mimeType->MimeType()
-                storagePolicyDecisionPoint.addPolicy(getPolicyType(str[0],
-                    str[1], str[2]));
+                // TODO (for now) instantiate PolicyType based on mix:mimeType
+                Policy policy = newPolicyInstance(str[0], str[1], str[2]);
+                // TODO (for now) based on object comparison using equals()
+                if (storagePolicyDecisionPoint.contains(policy)) {
+                    throw new PolicyTypeException("Property already exists!");
+                }
+                storagePolicyDecisionPoint.addPolicy(policy);
                 session.save();
                 LOGGER.debug("Saved PDS hint {}", request);
                 return Response.ok().build();
@@ -144,7 +148,7 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws PolicyTypeException
      */
-    public Policy getPolicyType(final String propertyType,
+    public Policy newPolicyInstance(final String propertyType,
         final String itemType, final String value) throws PolicyTypeException {
 
         switch (propertyType) {
@@ -158,44 +162,41 @@ public class PolicyGenerator extends AbstractResource {
     }
 
     /**
-     * No convenience class yet for specifying properties -- e.g. deleting
-     * image/tiff, not image/jpeg
-     */
-    /**
-     * Delete org.fcrepo.binary.PolicyType.
-     * 
-     * @param request
-     * @return
-     * @throws RepositoryException
+     * Delete NodeType. TODO for deleting multiple values with in a NodeType,
+     * the design of how things are stored will need to change.
      */
     @DELETE
-    public Response delete(final String request) throws RepositoryException {
+    @Path("/{id}")
+    public Response deleteNodeType(@PathParam("id")
+        final String nodeType) throws RepositoryException {
         try {
-            LOGGER.debug("Deleting node property{}", request);
+            // final String[] str = StringUtils.split(request);
+            // validateArgs(str.length);
+            LOGGER.debug("Deleting node property{}", nodeType);
             final Node node =
                 jcrTools.findOrCreateNode(session,
                     "/fedora:system/fedora:storage_policy", "test");
-            final String[] str = request.split(" ");
-            if (isValidNodeTypeProperty(session, str[0]) ||
-                isValidConfigurationProperty(str[0])) {
-
-                node.getProperty(str[0]).remove();
+            if (isValidNodeTypeProperty(session, nodeType)) {
+                node.getProperty(nodeType).remove();
                 session.save();
-                storagePolicyDecisionPoint.removePolicy(getPolicyType(str[0],
-                    str[1], str[2]));
+
+                // remove all MimeType intances (since thats only the stored
+                // Policy for now.
+                // TODO Once Policy is updated to display Policy type, this
+                // would change
+                storagePolicyDecisionPoint.removeAll();
                 return Response.ok().build();
             } else {
-                throw new PolicyTypeException(
+                throw new RepositoryException(
                     "Invalid property type specified.");
             }
-
         } finally {
             session.logout();
         }
     }
 
     /**
-     * TODO prints org.fcrepo.binary.PolicyDecisionPoint for now
+     * TODO (for now) prints org.fcrepo.binary.PolicyDecisionPoint
      * 
      * @param policyType
      * @return
@@ -204,8 +205,9 @@ public class PolicyGenerator extends AbstractResource {
     @GET
     @Produces(APPLICATION_JSON)
     public Response printActiveStoragePolicies() throws Exception {
-        if (storagePolicyDecisionPoint == null) {
-            return Response.serverError().build();
+        if (storagePolicyDecisionPoint == null ||
+            storagePolicyDecisionPoint.size() == 0) {
+            return Response.ok("No Policies Found").build();
         }
         return Response.ok(storagePolicyDecisionPoint.toString()).build();
     }
@@ -222,7 +224,7 @@ public class PolicyGenerator extends AbstractResource {
         final String type) throws RepositoryException {
         try {
             return session.getWorkspace().getNodeTypeManager()
-                .getNodeType(type).getName().equals(type) ? true : false;
+                .getNodeType(type).getName().equals(type);
         } catch (NoSuchNodeTypeException e) {
             LOGGER.debug("No corresponding Node type found for: {}", type);
             return false;
@@ -238,7 +240,31 @@ public class PolicyGenerator extends AbstractResource {
      */
     public boolean isValidConfigurationProperty(String property)
         throws PolicyTypeException {
-        // TODO
+        // TODO (for now) returns false. For future, need to represent & eval.
+        // non node type props
         return false;
+    }
+
+    /**
+     * TODO (for now) Simple validation
+     * 
+     * @param inputSize
+     * @throws IllegalArgumentException
+     */
+    public void validateArgs(int inputSize) throws IllegalArgumentException {
+        if (inputSize != InputPattern.valueOf(request.getMethod()).requiredLength) {
+            throw new IllegalArgumentException("Invalid Arg");
+        }
+        // could do further checking here
+    }
+
+    public enum InputPattern {
+        POST(3), DELETE(3);
+
+        private final int requiredLength;
+
+        private InputPattern(int l) {
+            requiredLength = l;
+        }
     }
 }

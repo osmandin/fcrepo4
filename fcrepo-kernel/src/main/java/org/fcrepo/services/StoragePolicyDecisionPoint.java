@@ -40,6 +40,7 @@ public interface StoragePolicyDecisionPoint {
 
     /**
      * Remove a storage policy
+     * 
      * @param p org.fcrepo.services.Policy object
      */
     public abstract void removePolicy(Policy p);
@@ -51,4 +52,20 @@ public interface StoragePolicyDecisionPoint {
      */
     public abstract void setPolicies(List<Policy> policies);
 
+    /**
+     * @param policy
+     */
+    public abstract boolean contains(Policy policy);
+
+    /**
+     * clear all policies
+     * @return
+     */
+    public void  removeAll();
+
+    /**
+     * @return policies size
+     * @return
+     */
+    public abstract int size();
 }

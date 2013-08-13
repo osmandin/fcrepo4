@@ -16,13 +16,18 @@
 
 package org.fcrepo.binary;
 
-import org.fcrepo.binary.MimeTypePolicy;
-import org.fcrepo.services.Policy;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
+
 import org.fcrepo.services.NodeService;
+import org.fcrepo.services.Policy;
 import org.fcrepo.session.SessionFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
 import javax.jcr.Node;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
@@ -30,12 +35,8 @@ import javax.jcr.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Response;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-
 public class PolicyGeneratorTest {
+
     @Mock
     private HttpServletRequest mockRequest;
 
@@ -59,9 +60,9 @@ public class PolicyGeneratorTest {
         initMocks(this);
         when(mockSessions.getSession()).thenReturn(mockSession);
         when(
-                mockNodeService.findOrCreateNode(mockSession,
-                        "/fedora:system/fedora:storage_policy", null))
-                .thenReturn(mockCodeNode);
+            mockNodeService.findOrCreateNode(mockSession,
+                "/fedora:system/fedora:storage_policy", null)).thenReturn(
+            mockCodeNode);
         Property property = mock(Property.class);
         when(property.getString()).thenReturn("image/tiff");
         when(mockCodeNode.getProperty("image/tiff")).thenReturn(property);
@@ -70,23 +71,41 @@ public class PolicyGeneratorTest {
     @Test
     public void nodeCreated() throws Exception {
         mockSession = mockSessions.getSession();
-        Node node = mockNodeService.findOrCreateNode(mockSession,
-                "/fedora:system/fedora:storage_policy", null);
+        mockNodeService.findOrCreateNode(mockSession,
+            "/fedora:system/fedora:storage_policy", null);
         assertEquals(mockCodeNode.getProperty("image/tiff").getString(),
-                "image/tiff");
+            "image/tiff");
     }
-
-    @Test
-    public void testActivePoliciesAtInit() throws Exception {
-        PolicyGenerator obj = new PolicyGenerator();
-        Response actual = obj.printActiveStoragePolicies();
-        assertEquals(actual.getStatus(), 500);
-    }
-
+   
     @Test
     public void getPolicyType() throws PolicyTypeException {
         PolicyGenerator obj = new PolicyGenerator();
-        Policy type = obj.getPolicyType("mix:mimeType", "image/tiff", null);
+        Policy type = obj.newPolicyInstance("mix:mimeType", "image/tiff", null);
         assertEquals(type.getClass(), MimeTypePolicy.class);
     }
+
+    @Test
+    public void ensureUniquePolicy() {
+        /* List<Policy> can have MimeType("image/tiff", "tiff-store") and MimeType("image/tiff", "cloud-tiffs").
+        List<Policy> can NOT have two MimeType("image/tiff", "tiff-store"); */
+
+        PolicyDecisionPoint obj = new PolicyDecisionPoint();
+        Policy p1 = new MimeTypePolicy("image/tiff", "tiff-store");
+        Policy p2 = new MimeTypePolicy("image/tiff", "tiff-store");
+        Policy p3 = new MimeTypePolicy("image/tiff", "tiff-store");
+        if (!obj.contains(p3)) {
+            obj.addPolicy(p1);
+        }
+        if (!obj.contains(p3)) {
+            obj.addPolicy(p2);
+        }
+        assertEquals(obj.contains(p1), true);
+        assertEquals(obj.contains(p2), true);
+        obj.removePolicy(p1);
+        assertEquals(obj.contains(p1), false);
+        assertEquals(obj.contains(p2), false);
+    }
+    
+    
+
 }
