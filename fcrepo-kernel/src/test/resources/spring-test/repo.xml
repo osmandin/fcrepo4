@@ -23,7 +23,5 @@
 
 
   <bean class="org.modeshape.jcr.JcrRepositoryFactory"/>
-    <!--  <bean class="org.fcrepo.storage.policy.PolicyDecisionPoint" /> -->
-    <!-- <bean class="org.fcrepo.storage.policy.PolicyDecisionPoint"/> -->
 
 </beans>

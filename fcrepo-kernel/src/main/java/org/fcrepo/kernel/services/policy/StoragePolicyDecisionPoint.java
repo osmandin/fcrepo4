@@ -20,6 +20,12 @@ import javax.jcr.Node;
 
 import java.util.List;
 
+/**
+ * Service Interface implementation for managing and using org.fcrepo.kernel.services.policy.Policy
+ * @author osmandin
+ * @date Aug 14, 2013
+ *
+ */
 public interface StoragePolicyDecisionPoint {
 
     /**

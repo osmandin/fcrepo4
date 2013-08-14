@@ -53,6 +53,14 @@ import javax.ws.rs.core.Response;
 
 import java.io.IOException;
 
+/**
+ * RESTful interface to create and manage storage policies
+ * 
+ * 
+ * @author osmandin
+ * @date Aug 14, 2013
+ */
+
 @Component
 @Scope("prototype")
 @Path("/storagepolicy")
