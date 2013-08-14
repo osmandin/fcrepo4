@@ -22,8 +22,8 @@ import static org.slf4j.LoggerFactory.getLogger;
 
 import org.apache.commons.lang.StringUtils;
 import org.fcrepo.http.commons.AbstractResource;
-import org.fcrepo.kernel.services.Policy;
 import org.fcrepo.kernel.services.StoragePolicyDecisionPoint;
+import org.fcrepo.kernel.services.policy.Policy;
 import org.fcrepo.http.commons.session.InjectedSession;
 import org.modeshape.jcr.api.JcrTools;
 import org.slf4j.Logger;
@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 //import org.springframework.validation.annotation.Validated;
+
 
 import javax.annotation.PostConstruct;
 import javax.jcr.Node;

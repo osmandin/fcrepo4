@@ -18,8 +18,8 @@ package org.fcrepo.storage.policy;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-import org.fcrepo.kernel.services.Policy;
 import org.fcrepo.kernel.services.StoragePolicyDecisionPoint;
+import org.fcrepo.kernel.services.policy.Policy;
 import org.slf4j.Logger;
 
 import javax.jcr.Node;
@@ -97,7 +97,7 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
      */
     @Override
     public boolean contains(Policy p) {
-        return policies.contains(p) ? true : false;
+        return policies.contains(p);
     }
 
     /*

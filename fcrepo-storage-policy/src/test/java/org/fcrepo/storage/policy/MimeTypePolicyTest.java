@@ -16,7 +16,7 @@
 
 package org.fcrepo.storage.policy;
 
-import org.fcrepo.kernel.services.Policy;
+import org.fcrepo.kernel.services.policy.Policy;
 import org.junit.Test;
 
 import javax.jcr.Node;

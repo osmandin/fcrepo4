@@ -20,7 +20,7 @@ import static org.modeshape.jcr.api.JcrConstants.JCR_CONTENT;
 import static org.modeshape.jcr.api.JcrConstants.JCR_MIME_TYPE;
 import static org.slf4j.LoggerFactory.getLogger;
 
-import org.fcrepo.kernel.services.Policy;
+import org.fcrepo.kernel.services.policy.Policy;
 import org.slf4j.Logger;
 
 import javax.jcr.Node;

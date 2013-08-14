@@ -18,6 +18,8 @@ package org.fcrepo.kernel.services;
 
 import javax.jcr.Node;
 
+import org.fcrepo.kernel.services.policy.Policy;
+
 import java.util.List;
 
 public interface StoragePolicyDecisionPoint {
