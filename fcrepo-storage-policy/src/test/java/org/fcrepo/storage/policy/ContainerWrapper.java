@@ -26,7 +26,6 @@ import org.fcrepo.storage.policy.bind.ServletMapping;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.servlet.ServletRegistration;
 import org.glassfish.grizzly.servlet.WebappContext;
-//import org.glassfish.jersey.grizzly2.servlet.GrizzlyWebContainerFactory;
 import org.glassfish.jersey.grizzly2.servlet.GrizzlyWebContainerFactory;
 import org.slf4j.Logger;
 import org.springframework.beans.BeansException;

@@ -19,25 +19,12 @@ package org.fcrepo.storage.policy;
 import static org.junit.Assert.assertEquals;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.tika.io.IOUtils;
 import org.junit.Test;
-import org.springframework.http.ResponseEntity;
-
-import javax.jcr.RepositoryException;
-import javax.ws.rs.HttpMethod;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 
 public class PolicyGeneratorIT extends AbstractResourceIT {

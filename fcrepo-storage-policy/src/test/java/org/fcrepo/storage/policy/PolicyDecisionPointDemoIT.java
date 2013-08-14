@@ -23,7 +23,6 @@ import javax.jcr.Session;
 
 import org.fcrepo.storage.policy.MimeTypePolicy;
 import org.fcrepo.storage.policy.PolicyDecisionPoint;
-//import org.fcrepo.integration.AbstractIT;
 import org.fcrepo.kernel.services.DatastreamService;
 import org.fcrepo.kernel.services.ObjectService;
 import org.junit.Test;
