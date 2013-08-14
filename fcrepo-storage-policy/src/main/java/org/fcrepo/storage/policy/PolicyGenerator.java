@@ -163,7 +163,6 @@ public class PolicyGenerator extends AbstractResource {
 
         switch (propertyType) {
             case NodeType.MIX_MIMETYPE:
-                return new MimeTypePolicy(itemType, value);
             case "mix:mimeType":
                 return new MimeTypePolicy(itemType, value);
             default:
@@ -230,7 +229,7 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws RepositoryException
      */
-    public boolean isValidNodeTypeProperty(final Session session,
+    private boolean isValidNodeTypeProperty(final Session session,
         final String type) throws RepositoryException {
         try {
             return session.getWorkspace().getNodeTypeManager()
@@ -248,7 +247,7 @@ public class PolicyGenerator extends AbstractResource {
      * @return
      * @throws PolicyTypeException
      */
-    public boolean isValidConfigurationProperty(String property)
+    private boolean isValidConfigurationProperty(String property)
         throws PolicyTypeException {
         // TODO (for now) returns false. For future, need to represent & eval.
         // non node type props
@@ -261,14 +260,14 @@ public class PolicyGenerator extends AbstractResource {
      * @param inputSize
      * @throws IllegalArgumentException
      */
-    public void validateArgs(int inputSize) throws IllegalArgumentException {
+    private void validateArgs(int inputSize) throws IllegalArgumentException {
         if (inputSize != InputPattern.valueOf(request.getMethod()).requiredLength) {
             throw new IllegalArgumentException("Invalid Arg");
         }
         // could do further checking here
     }
 
-    public enum InputPattern {
+    private enum InputPattern {
         POST(3), DELETE(3);
 
         private final int requiredLength;

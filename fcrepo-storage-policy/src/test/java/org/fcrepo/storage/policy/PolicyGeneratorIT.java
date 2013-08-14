@@ -25,10 +25,14 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.tika.io.IOUtils;
 import org.junit.Test;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_FORM_URLENCODED;
 
+// Runs integration test for restful interface for storage policies
+// TODO set up and tear down for tests
 public class PolicyGeneratorIT extends AbstractResourceIT {
 
+   
     @Test
     public void testPolicyCreateByPost() throws Exception {
         final HttpPost objMethod = HttpPostObjMethod(null);
@@ -50,7 +54,8 @@ public class PolicyGeneratorIT extends AbstractResourceIT {
     }
     
     @Test
-    public void testPolicyDestroyByPost() throws Exception {
+    public void testPoliyDelete() throws Exception {
+        testPolicyCreateByPost();
         final HttpDelete objMethod = HttpDeleteObjMethod("mix:mimeType");
         final HttpResponse response = client.execute(objMethod);
         assertEquals(response.getStatusLine().getStatusCode(), 200);    
@@ -60,15 +65,6 @@ public class PolicyGeneratorIT extends AbstractResourceIT {
             client.execute(objGetMethod);
         assertEquals(IOUtils.toString(getResponse.getEntity().getContent()),
             "No Policies Found");
-    }
-    
-    /*    @Test
-    public void testGet() throws Exception {
-        final HttpGet objMethod = HttpGetObjMethod(null);
-        assertEquals(200, getStatus(objMethod));
-        final HttpResponse response =
-            client.execute(objMethod);
-        assertEquals(IOUtils.toString(response.getEntity().getContent()),
-            "No Policies Found");
-    }*/
+    }   
+   
 }

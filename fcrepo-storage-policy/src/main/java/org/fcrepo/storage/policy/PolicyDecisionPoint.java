@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
-    private static final Logger LOGGER = getLogger(MimeTypePolicy.class);
+    private static final Logger LOGGER = getLogger(PolicyDecisionPoint.class);
 
     private List<Policy> policies;
 
