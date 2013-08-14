@@ -35,7 +35,7 @@ public class PolicyGeneratorIT extends AbstractResourceIT {
    
     @Test
     public void testPolicyCreateByPost() throws Exception {
-        final HttpPost objMethod = HttpPostObjMethod(null);
+        final HttpPost objMethod = HttpPostObjMethod();
         StringEntity input = new StringEntity("mix:mimeType image/tiff tiff/store", "UTF-8");
         input.setContentType(APPLICATION_FORM_URLENCODED);
         objMethod.setEntity(input);
@@ -45,7 +45,7 @@ public class PolicyGeneratorIT extends AbstractResourceIT {
     
     @Test
     public void testInvalidPoliciesCreateByPost() throws Exception {
-        final HttpPost objMethod = HttpPostObjMethod(null);
+        final HttpPost objMethod = HttpPostObjMethod();
         StringEntity input = new StringEntity("mix:newType image/tiff tiff/store", "UTF-8");
         input.setContentType(APPLICATION_FORM_URLENCODED);
         objMethod.setEntity(input);

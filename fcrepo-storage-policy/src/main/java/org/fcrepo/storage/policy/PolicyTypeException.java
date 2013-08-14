@@ -22,44 +22,10 @@ package org.fcrepo.storage.policy;
  */
 
 public class PolicyTypeException extends RuntimeException {
-
-    /**
-     * 
-     */
-    public PolicyTypeException() {
-        super();
-    }
-
-    /**
-     * @param arg0
-     * @param arg1
-     * @param arg2
-     * @param arg3
-     */
-    public PolicyTypeException(final String arg0, final Throwable arg1,
-            final boolean arg2, final boolean arg3) {
-        super(arg0, arg1, arg2, arg3);
-    }
-
-    /**
-     * @param arg0
-     * @param arg1
-     */
-    public PolicyTypeException(final String arg0, final Throwable arg1) {
-        super(arg0, arg1);
-    }
-
     /**
      * @param arg0
      */
     public PolicyTypeException(final String arg0) {
-        super(arg0);
-    }
-
-    /**
-     * @param arg0
-     */
-    public PolicyTypeException(final Throwable arg0) {
         super(arg0);
     }
 

@@ -106,8 +106,6 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
      */
     @Override
     public void setPolicies(final List<Policy> policies) {
-        LOGGER.debug("Adding policies to " + "PolicyDecisionPoint: {}",
-            policies.toString());
         this.policies = policies;
     }
 

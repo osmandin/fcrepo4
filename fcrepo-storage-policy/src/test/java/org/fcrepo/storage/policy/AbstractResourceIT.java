@@ -76,16 +76,12 @@ public abstract class AbstractResourceIT {
         return new HttpGet(serverAddress);
     }
     
-    protected static HttpPost HttpPostObjMethod(final String param) {
-        if (param !=null)
-            return new HttpPost(serverAddress + "/" + param);
+    protected static HttpPost HttpPostObjMethod() {       
         return new HttpPost(serverAddress);
     }
     
     protected static HttpDelete HttpDeleteObjMethod(final String param) {
-        if (param !=null)
-            return new HttpDelete(serverAddress + "/" + param);
-        return new HttpDelete(serverAddress);
+        return new HttpDelete(serverAddress + "/" + param);
     }
     
     protected HttpResponse execute(final HttpUriRequest method)
