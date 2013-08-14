@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package org.fcrepo.kernel.services;
+package org.fcrepo.kernel.services.policy;
 
 import javax.jcr.Node;
-
-import org.fcrepo.kernel.services.policy.Policy;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public interface StoragePolicyDecisionPoint {
     /**
      * Add a new storage policy
      * 
-     * @param p org.fcrepo.services.Policy object
+     * @param p org.fcrepo.kernel.services.policy object
      */
     public abstract void addPolicy(Policy p);
 
@@ -43,7 +41,7 @@ public interface StoragePolicyDecisionPoint {
     /**
      * Remove a storage policy
      * 
-     * @param p org.fcrepo.services.Policy object
+     * @param p org.fcrepo.kernel.services.policy object
      */
     public abstract void removePolicy(Policy p);
 
@@ -61,13 +59,11 @@ public interface StoragePolicyDecisionPoint {
 
     /**
      * clear all policies
-     * @return
      */
     public void  removeAll();
 
     /**
      * @return policies size
-     * @return
      */
     public abstract int size();
 }

@@ -35,7 +35,7 @@ import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
-import org.fcrepo.kernel.services.StoragePolicyDecisionPoint;
+import org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint;
 import org.fcrepo.kernel.exception.InvalidChecksumException;
 import org.fcrepo.kernel.utils.ContentDigest;
 import org.fcrepo.jcr.FedoraJcrTypes;

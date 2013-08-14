@@ -18,8 +18,8 @@ package org.fcrepo.storage.policy;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-import org.fcrepo.kernel.services.StoragePolicyDecisionPoint;
 import org.fcrepo.kernel.services.policy.Policy;
+import org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint;
 import org.slf4j.Logger;
 
 import javax.jcr.Node;
@@ -50,7 +50,7 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     /*
      * (non-Javadoc)
-     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
+     * @see org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint#addPolicy(org.fcrepo.kernel.services.policy.Policy)
      */
     @Override
     public void addPolicy(final Policy p) {
@@ -59,7 +59,7 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     /*
      * (non-Javadoc)
-     * @see org.fcrepo.binary.StoragePolicy#evaluatePolicies(javax.jcr.Node)
+     * @see org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint#evaluatePolicies(javax.jcr.Node)
      */
     @Override
     public String evaluatePolicies(final Node n) {
@@ -74,7 +74,7 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     /*
      * (non-Javadoc)
-     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
+     * @see org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint#addPolicy(org.fcrepo.kernel.services.policy.Policy)
      */
     @Override
     public void removePolicy(final Policy p) {
@@ -83,7 +83,7 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     /*
      * (non-Javadoc)
-     * @see org.fcrepo.binary.StoragePolicy#addPolicy(org.fcrepo.binary.Policy)
+     * @see org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint#addPolicy(org.fcrepo.kernel.services.policy.Policy)
      */
     @Override
     public void removeAll() {
@@ -102,7 +102,7 @@ public class PolicyDecisionPoint implements StoragePolicyDecisionPoint {
 
     /*
      * (non-Javadoc)
-     * @see org.fcrepo.binary.StoragePolicy#setPolicies(java.util.List)
+     * @see org.fcrepo.kernel.services.policy.StoragePolicyDecisionPoint#setPolicies(java.util.List)
      */
     @Override
     public void setPolicies(final List<Policy> policies) {
