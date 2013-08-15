@@ -37,7 +37,6 @@ import org.fcrepo.kernel.services.ObjectService;
 import org.fcrepo.kernel.services.functions.GetBinaryKey;
 import org.fcrepo.kernel.utils.LowLevelCacheEntry;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.modeshape.jcr.JcrRepositoryFactory;
 import org.modeshape.jcr.api.JcrConstants;
@@ -72,7 +71,7 @@ public class TiffPolicyStorageIT {
 
         final URL config =
                 this.getClass().getClassLoader().getResource(
-                        "test_composite_storage_repository.json");
+                    "repository.json");
         repo =
                 new JcrRepositoryFactory().getRepository(config.toString(),
                         null);
@@ -90,7 +89,7 @@ public class TiffPolicyStorageIT {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void testPolicyDrivenStorage() throws Exception {
         ByteArrayInputStream data;
         final Session session = repo.login();
