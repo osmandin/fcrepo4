@@ -93,6 +93,7 @@
 
   <build>
 
+    <finalName>fcrepo-webapp</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
