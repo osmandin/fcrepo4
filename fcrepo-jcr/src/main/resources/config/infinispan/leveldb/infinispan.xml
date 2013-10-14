@@ -28,8 +28,8 @@
 
     <loaders passivation="false" shared="false" preload="false">
       <leveldbStore xmlns="urn:infinispan:config:leveldb:5.2"
-                    location="${fcrepo.ispn.repo.CacheDirPath,user.home:target}/fcrepo4-data/FedoraRepository/data"
-                    expiredLocation="${fcrepo.ispn.repo.CacheDirPath,user.home:target}/fcrepo4-data/FedoraRepository/expired"
+                    location="${fcrepo.ispn.repo.CacheDirPath,java.io.tmpdir:target}/fcrepo4-data/FedoraRepository/data"
+                    expiredLocation="${fcrepo.ispn.repo.CacheDirPath,java.io.tmpdir:target}/fcrepo4-data/FedoraRepository/expired"
           />
 
     </loaders>
@@ -53,8 +53,8 @@
 
     <loaders passivation="false" shared="false" preload="false">
       <leveldbStore xmlns="urn:infinispan:config:leveldb:5.2"
-              location="${fcrepo.ispn.CacheDirPath,user.home:target}/fcrepo4-data/FedoraRepositoryMetaData/data"
-              expiredLocation="${fcrepo.ispn.CacheDirPath,user.home:target}/fcrepo4-data/FedoraRepositoryMetaData/expired"
+              location="${fcrepo.ispn.CacheDirPath,java.io.tmpdir:target}/fcrepo4-data/FedoraRepositoryMetaData/data"
+              expiredLocation="${fcrepo.ispn.CacheDirPath,java.io.tmpdir:target}/fcrepo4-data/FedoraRepositoryMetaData/expired"
               />
 
   </loaders>
@@ -87,7 +87,7 @@
     <!-- See the documentation for more configuration examples and flags. -->
     <properties>
       <!-- We have to set the location where we want to store the data. -->
-      <property name="location" value="${fcrepo.ispn.binary.CacheDirPath,user.home:target}/fcrepo4-data/FedoraRepositoryBinaryData/storage"/>
+      <property name="location" value="${fcrepo.ispn.binary.CacheDirPath,java.io.tmpdir:target}/fcrepo4-data/FedoraRepositoryBinaryData/storage"/>
 
       <property name="fsyncMode" value="perWrite"/>
     </properties>
