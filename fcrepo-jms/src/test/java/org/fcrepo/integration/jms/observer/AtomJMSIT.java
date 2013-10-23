@@ -127,31 +127,34 @@ public class AtomJMSIT implements MessageListener {
     @Test
     public void testAtomStreamNodePath() throws RepositoryException,
         InterruptedException {
-        Session session = repository.login();
+    	final int minEntriesSize = 2;
+    	Session session = repository.login();
         session.getRootNode().addNode("test1/sigma").addMixin(FEDORA_OBJECT);
         session.save();
 
-        waitForEntry(1);
+        waitForEntry(minEntriesSize);
         session.logout();
 
         if (entries.isEmpty())
             fail("Waited a second, got no messages");
 
         String path = null;
-        for (Entry entry : entries) {
-            List<Category> categories = copyOf(entry.getCategories("xsd:string"));
-            String p = null;
-            for (Category cat : categories) {
-                if (cat.getLabel().equals("path")) {
-                    logger.debug("Found Category with term: " + cat.getTerm());
-                    p = cat.getTerm();
-                }
-            }
-            if (p.equals("/test1/sigma")) {
-                path = p;
-            }
-        }
-        assertEquals("Got wrong path!", "/test1/sigma", path);        
+        assertEquals("Entries size not 2", entries.size(), 2);
+       
+		for (Entry entry : entries) {
+		    List<Category> categories = copyOf(entry.getCategories("xsd:string"));
+		    String p = null;
+		    for (Category cat : categories) {
+		        if (cat.getLabel().equals("path")) {
+		            logger.debug("Found Category with term: " + cat.getTerm());
+		            p = cat.getTerm();
+		        }
+		    }
+		    if (p.equals("/test1/sigma")) {
+		        path = p;
+		    }
+		}
+		assertEquals("Got wrong path!", "/test1/sigma", path);  		
     }
 
     @Test
