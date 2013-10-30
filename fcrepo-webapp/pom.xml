@@ -143,12 +143,12 @@
 			  </goals>
 			  <configuration>
 				<properties>
-				<property>
-                        <name>jms.port</name>
-                        <value>${jms.port}</value>
-                    </property>
-                </properties>
-				</configuration>
+				  <property>
+                    <name>jms.port</name>
+                    <value>${jms.port}</value>
+                   </property>
+                 </properties>
+			   </configuration>
 			</execution>
 		</executions>
 	  </plugin>
