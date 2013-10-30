@@ -127,9 +127,29 @@
             <portName>test.port</portName>
             <!-- reserves the stop port for jetty-maven-plugin -->
             <portName>jetty.port.stop</portName>
+            <portName>jms.port</portName>
           </portNames>
+          <outputFile>${java.io.tmpdir}build-helper-maven-plugin-IT.properties</outputFile>
         </configuration>
       </plugin>
+      <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+		<artifactId>properties-maven-plugin</artifactId>
+		<version>1.0-alpha-2</version>
+		<executions>
+		  <execution>
+			<phase>pre-integration-test</phase>
+			  <goals>
+				<goal>read-project-properties</goal>
+			  </goals>
+			  <configuration>
+				<files>
+				  <file>${java.io.tmpdir}build-helper-maven-plugin-IT.properties</file>
+				</files>
+				</configuration>
+			</execution>
+		</executions>
+	  </plugin>
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
