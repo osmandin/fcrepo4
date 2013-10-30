@@ -129,7 +129,6 @@
             <portName>jetty.port.stop</portName>
             <portName>jms.port</portName>
           </portNames>
-          <outputFile>${java.io.tmpdir}build-helper-maven-plugin-IT.properties</outputFile>
         </configuration>
       </plugin>
       <plugin>
@@ -140,12 +139,15 @@
 		  <execution>
 			<phase>pre-integration-test</phase>
 			  <goals>
-				<goal>read-project-properties</goal>
+				<goal>set-system-properties</goal>
 			  </goals>
 			  <configuration>
-				<files>
-				  <file>${java.io.tmpdir}build-helper-maven-plugin-IT.properties</file>
-				</files>
+				<properties>
+				<property>
+                        <name>jms.port</name>
+                        <value>${jms.port}</value>
+                    </property>
+                </properties>
 				</configuration>
 			</execution>
 		</executions>
