@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Modeshape related code.
+Modeshape related sub-packages.
  */
 
 package org.modeshape;

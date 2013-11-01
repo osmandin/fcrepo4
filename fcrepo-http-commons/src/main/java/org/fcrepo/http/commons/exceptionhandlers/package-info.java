@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
- */
+A variety of JAX-RS <code>ExceptionMapper</code>s.
+handlers.*/
 
-package org.fcrepo.kernel;
+package org.fcrepo.http.commons.exceptionhandlers;

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
- */
+<code>FedoraEvent</code> is defined here, as well some filters and listeners.
+*/
 
-package org.fcrepo.kernel;
+package org.fcrepo.kernel.observer;

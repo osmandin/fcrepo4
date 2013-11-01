@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
- */
+Helpers and providers for different response formats.*/
 
-package org.fcrepo.kernel;
+package org.fcrepo.http.commons.responses;

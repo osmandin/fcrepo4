@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
- */
+Core abstractions for manipulating storage policies.
+*/
 
-package org.fcrepo.kernel;
+package org.fcrepo.kernel.services.policy;

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
+Types and implementation classes that define and provide sessions.
  */
 
-package org.fcrepo.kernel;
+package org.fcrepo.http.commons.session;

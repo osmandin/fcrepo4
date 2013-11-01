@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
- */
+Annotations for working with
+{@link org.fcrepo.http.api.FedoraNodes FedoraNodes}.*/
 
-package org.fcrepo.kernel;
+package org.fcrepo.http.commons.domain;

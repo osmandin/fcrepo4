@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 /**
-This package contains abstractions for <code> FedoraResource <code> types and
-some types and functionality for Transactions.
- */
+Fedora startup runtime functionality.
+*/
 
-package org.fcrepo.kernel;
+package org.fcrepo.kernel.spring;
