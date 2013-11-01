@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Authorization OAuth filter code.
+This package provides capability to emit JMS messages for Fedora events.
  */
 
-package org.fcrepo.auth.oauth.filter;
+package org.fcrepo.jms.observer;

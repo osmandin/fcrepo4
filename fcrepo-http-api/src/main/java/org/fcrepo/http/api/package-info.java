@@ -14,7 +14,15 @@
  * limitations under the License.
  */
 /**
-Http API commmon module code.
- */
+This package provides a RESTful API for several content management and
+core repository services.
+
+<ul>
+      <li>Fixity Service</li>
+      <li>Contract for repository management services (e.g. backup/restore)</li>
+      <li>Sitemap</li>
+      <li>Controllers for manipulating object and data streams</li>
+</ul>
+*/
 
 package org.fcrepo.http.api;

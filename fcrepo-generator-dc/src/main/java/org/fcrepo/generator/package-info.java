@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-General DC generator code.
+This package provides RESTful interface for Dublin Core generation.
  */
 
 package org.fcrepo.generator;

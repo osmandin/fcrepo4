@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
-RESTful interface to OAuth functionality. An <code>AuthzEndPoint</code> manages authorization codes
-and a <code>TokenEndpoint handles OAuth access tokens.</code>
- */
+This package provides functionality for core repository management.
 
-package org.fcrepo.auth.oauth.api;
+*/
+
+package org.fcrepo.http.api.repository;

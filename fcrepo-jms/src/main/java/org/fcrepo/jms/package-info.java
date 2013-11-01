@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-JMS module code.
+This package provides common JMS capability.
  */
 
 package org.fcrepo.jms;

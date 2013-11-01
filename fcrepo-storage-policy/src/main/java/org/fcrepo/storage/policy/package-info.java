@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 /**
-Storage policy code.
+This package provides functionality for registering storage policies for
+different node types. It also provides a service that records Fedora wide
+storage policies and produces storage hints for
+streams.
  */
 
 package org.fcrepo.storage.policy;

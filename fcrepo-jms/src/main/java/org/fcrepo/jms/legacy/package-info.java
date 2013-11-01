@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Authorization OAuth implementation code.
+This package provides capability to create and handle ATOM messages for JMS messages.
  */
 
-package org.fcrepo.auth.oauth.impl;
+package org.fcrepo.jms.legacy;

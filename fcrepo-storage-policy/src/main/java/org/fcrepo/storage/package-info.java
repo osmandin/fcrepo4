@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 /**
-Storage commmon module code.
+See {@link org.fcrepo.storage.policy org.fcrepo.storage.policy} for storage policy
+machinery.
  */
 
 package org.fcrepo.storage;

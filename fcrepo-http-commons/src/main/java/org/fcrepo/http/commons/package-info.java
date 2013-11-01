@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Http commmon module code.
+Common abstractions for module's sub-packages.
  */
 
 package org.fcrepo.http.commons;

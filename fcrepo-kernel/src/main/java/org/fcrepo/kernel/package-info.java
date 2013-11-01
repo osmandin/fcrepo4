@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Kernel code.
+Fedora Kernel general purpose classes.
  */
 
 package org.fcrepo.kernel;

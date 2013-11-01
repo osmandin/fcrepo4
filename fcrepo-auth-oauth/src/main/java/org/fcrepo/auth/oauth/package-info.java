@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Authorization OAuth commmon module code.
+General contract and functionality for OAuth machinery.
  */
 
 package org.fcrepo.auth.oauth;

@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 /**
-Webhooks commmon module code.
- */
+This package provides functionality for managing web hooks. Web hooks are HTTP
+callbacks, and allow for event-based trigger mechanism. An external application,
+e.g., can choose to be notified when an event takes place. Upon receiving a
+<code>FedoraEvent</code>, webhooks callbacks registered for the resource are triggered.
+*/
 
 package org.fcrepo.webhooks;

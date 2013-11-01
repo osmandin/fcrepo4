@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 /**
-Authorization commmon module code.
+This package contains interfaces and classes for providing base authorization
+and authentication capabilities.Several ModeShape authentication providers exist
+in this package.
  */
 
 package org.fcrepo.auth;

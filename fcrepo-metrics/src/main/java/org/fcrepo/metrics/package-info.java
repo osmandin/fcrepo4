@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 /**
-Metrics commmon module code.
+This package provides functionality for capturing Fedora platform performance metrics using
+the <a href="http://metrics.codahale.com/"> Metrics </a> library.
  */
 
 package org.fcrepo.metrics;

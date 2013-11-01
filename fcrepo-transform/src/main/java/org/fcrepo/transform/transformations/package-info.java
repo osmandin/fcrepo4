@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
-RESTful interface to OAuth functionality. An <code>AuthzEndPoint</code> manages authorization codes
-and a <code>TokenEndpoint handles OAuth access tokens.</code>
+Transforms for <a href="http://marmotta.incubator.apache.org"> Linked Data
+</a>, <a href="http://www.w3.org/TR/rdf-sparql-query/"> SPARQL </a>
  */
 
-package org.fcrepo.auth.oauth.api;
+package org.fcrepo.transform.transformations;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 /**
-Fedora JCR module code and configurations.
+This package hosts configuration files for the backend technologies that power Fedora.
  */
 
 package org.fcrepo.jcr;
