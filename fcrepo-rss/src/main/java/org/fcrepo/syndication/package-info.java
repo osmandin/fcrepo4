@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 /**
-This package provides web syndication capability. An RSS feed for fedora wide events,
-e.g., can be obtained by calling the appropriate RESTful interface.
- */
+This package provides web syndication capability. An RSS feed for fedora wide events
+can be obtained by calling the appropriate RESTful interface.
+*/
 
 package org.fcrepo.syndication;

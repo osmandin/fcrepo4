@@ -16,6 +16,6 @@
 /**
 See {@link org.fcrepo.storage.policy org.fcrepo.storage.policy} for storage policy
 machinery.
- */
+*/
 
 package org.fcrepo.storage;

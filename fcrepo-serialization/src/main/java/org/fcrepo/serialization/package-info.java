@@ -16,7 +16,7 @@
 /**
 This package provides serialization capability. A {@link org.fcrepo.kernel.FedoraObject FedoraObject} can
 be serialized to an XML stream. A {@link org.fcrepo.serialization.FedoraObjectSerializer
-FedoraObjectSerializer} is responsible for serialization mechanism.
- */
+FedoraObjectSerializer} is responsible for the serialization mechanism.
+*/
 
 package org.fcrepo.serialization;

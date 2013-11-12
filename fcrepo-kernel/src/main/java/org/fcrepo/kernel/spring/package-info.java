@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 /**
-Fedora startup runtime functionality.
+Fedora runtime initialization functionality. System properties can be
+declared here to allow users to define system wide configuration parameters
+(e.g. to specify the index directory).
 */
 
 package org.fcrepo.kernel.spring;

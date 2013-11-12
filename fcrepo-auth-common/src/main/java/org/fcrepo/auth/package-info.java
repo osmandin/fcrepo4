@@ -15,8 +15,8 @@
  */
 /**
 This package contains interfaces and classes for providing base authorization
-and authentication capabilities.Several ModeShape authentication providers exist
-in this package.
- */
+and authentication capabilities. Several ModeShape <code>AuthenticationProvider</code>
+s are given.
+*/
 
 package org.fcrepo.auth;
