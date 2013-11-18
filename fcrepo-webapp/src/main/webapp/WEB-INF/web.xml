@@ -30,6 +30,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+
 	<servlet-mapping>
 		<servlet-name>jersey-servlet</servlet-name>
 		<url-pattern>/rest/*</url-pattern>
@@ -62,6 +63,24 @@
 		<url-pattern>/rest/objects/authenticated/*</url-pattern>
 	</filter-mapping>
 
-
-
+    <!-- for webapp -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name></web-resource-name>
+            <url-pattern>/rest/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+ <!-- BASIC security parameters -->
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>fcrepo</realm-name>
+    </login-config>
+    <!--
+    <security-role>
+        <role-name>admin1</role-name>
+    </security-role>
+    -->
 </web-app>
