@@ -16,21 +16,26 @@
 
 package org.fcrepo.jms.legacy;
 
+import java.io.IOException;
 import java.io.Reader;
-import java.util.UUID;
+import java.util.List;
+import java.util.ArrayList;
 
-import org.apache.abdera.Abdera;
-import org.apache.abdera.model.Entry;
-import org.apache.abdera.parser.Parser;
+import com.sun.syndication.feed.WireFeed;
+import com.sun.syndication.feed.atom.Category;
+import com.sun.syndication.feed.atom.Entry;
+import com.sun.syndication.feed.atom.Feed;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.WireFeedInput;
 
 /**
  * Create and parse ATOM events
  */
 public abstract class EntryFactory {
 
-    private static final Abdera ABDERA = new Abdera();
+    //private static final Abdera ABDERA = new Abdera();
 
-    private static final Parser ABDERA_PARSER = ABDERA.getParser();
+    //private static final Parser ABDERA_PARSER = ABDERA.getParser();
 
     public static final String FORMAT =
             "info:fedora/fedora-system:ATOM-APIM-1.0";
@@ -54,22 +59,54 @@ public abstract class EntryFactory {
      * @return
      */
     static Entry newEntry() {
-        final Entry entry = ABDERA.newEntry();
+        final Entry entry = new Entry();
+        /*.
         entry.declareNS(XSD_NS, "xsd");
         entry.declareNS(TYPES_NS, "fedora-types");
         entry.setId("urn:uuid:" + UUID.randomUUID().toString());
         entry.addCategory(FORMAT_PREDICATE, FORMAT, "format");
         entry.addCategory(VERSION_PREDICATE, SERVER_VERSION, "version");
+        */
+        entry.setId(null);
+        entry.setContents(null);
+        List<Category> categoryList = new ArrayList<Category>();
+
+        Category d = new Category();
+        d.setLabel("format");
+        d.setScheme(FORMAT_PREDICATE);
+        d.setTerm(FORMAT);
+        categoryList.add(d);
+
+        Category e = new Category();
+        e.setLabel("version");
+        e.setScheme(VERSION_PREDICATE);
+        e.setTerm(SERVER_VERSION);
+        categoryList.add(e);
+
+        entry.setCategories(categoryList);
         return entry;
     }
 
     /**
-     * Parse an ATOM entry document into Abdera
+     * Parse an ATOM entry document into ROME
      * @param input
      * @return
+     * @throws IOException
+     * @throws FeedException
+     * @throws IllegalArgumentException
      */
-    static Entry parse(Reader input) {
-        return (Entry) ABDERA_PARSER.parse(input).getRoot();
+    static Entry parse(Reader input) throws IllegalArgumentException,
+            FeedException, IOException {
+        WireFeedInput wireFeedInput = new WireFeedInput();
+        WireFeed wiredFeed = wireFeedInput.build(input);
+        Feed f = (Feed)wiredFeed;//check
+        if (f == null) {
+            System.out.println("Feed null");
+        } else {
+            System.out.println(f.toString());
+        }
+
+        return (Entry) f.getEntries().get(0);
     }
 
 }
