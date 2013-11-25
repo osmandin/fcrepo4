@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import com.sun.syndication.feed.WireFeed;
 import com.sun.syndication.feed.atom.Category;
@@ -32,10 +33,6 @@ import com.sun.syndication.io.WireFeedInput;
  * Create and parse ATOM events
  */
 public abstract class EntryFactory {
-
-    //private static final Abdera ABDERA = new Abdera();
-
-    //private static final Parser ABDERA_PARSER = ABDERA.getParser();
 
     public static final String FORMAT =
             "info:fedora/fedora-system:ATOM-APIM-1.0";
@@ -60,30 +57,28 @@ public abstract class EntryFactory {
      */
     static Entry newEntry() {
         final Entry entry = new Entry();
-        /*.
-        entry.declareNS(XSD_NS, "xsd");
-        entry.declareNS(TYPES_NS, "fedora-types");
+
+        //not used:
+        //entry.declareNS(XSD_NS, "xsd");
+        //entry.declareNS(TYPES_NS, "fedora-types");
+
         entry.setId("urn:uuid:" + UUID.randomUUID().toString());
-        entry.addCategory(FORMAT_PREDICATE, FORMAT, "format");
-        entry.addCategory(VERSION_PREDICATE, SERVER_VERSION, "version");
-        */
-        entry.setId(null);
-        entry.setContents(null);
+
         List<Category> categoryList = new ArrayList<Category>();
-
-        Category d = new Category();
-        d.setLabel("format");
-        d.setScheme(FORMAT_PREDICATE);
-        d.setTerm(FORMAT);
-        categoryList.add(d);
-
-        Category e = new Category();
-        e.setLabel("version");
-        e.setScheme(VERSION_PREDICATE);
-        e.setTerm(SERVER_VERSION);
-        categoryList.add(e);
-
+        Category formatCategory = new Category();
+        formatCategory.setLabel("format");
+        formatCategory.setScheme(FORMAT_PREDICATE);
+        formatCategory.setTerm(FORMAT);
+        categoryList.add(formatCategory);
+        Category versionCategory = new Category();
+        versionCategory.setLabel("version");
+        versionCategory.setScheme(VERSION_PREDICATE);
+        versionCategory.setTerm(SERVER_VERSION);
+        categoryList.add(versionCategory);
         entry.setCategories(categoryList);
+        //entry.addCategory(FORMAT_PREDICATE, FORMAT, "format");
+        //entry.addCategory(VERSION_PREDICATE, SERVER_VERSION, "version");
+
         return entry;
     }
 
@@ -99,12 +94,7 @@ public abstract class EntryFactory {
             FeedException, IOException {
         WireFeedInput wireFeedInput = new WireFeedInput();
         WireFeed wiredFeed = wireFeedInput.build(input);
-        Feed f = (Feed)wiredFeed;//check
-        if (f == null) {
-            System.out.println("Feed null");
-        } else {
-            System.out.println(f.toString());
-        }
+        Feed f = (Feed)wiredFeed;
 
         return (Entry) f.getEntries().get(0);
     }

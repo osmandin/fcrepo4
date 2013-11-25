@@ -41,7 +41,6 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
-import com.sun.syndication.feed.atom.*;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.fcrepo.jms.legacy.LegacyMethod;
 import org.junit.After;
@@ -52,6 +51,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.sun.syndication.feed.atom.Category;
+import com.sun.syndication.feed.atom.Content;
+import com.sun.syndication.feed.atom.Entry;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/spring-test/jms.xml", "/spring-test/repo.xml",
