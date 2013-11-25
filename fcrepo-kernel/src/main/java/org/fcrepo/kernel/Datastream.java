@@ -173,7 +173,7 @@ public class Datastream extends FedoraResource implements FedoraJcrTypes {
                 !checksum.equals(ContentDigest.asURI("SHA-1", dsChecksum))) {
             LOGGER.debug("Failed checksum test");
             throw new InvalidChecksumException("Checksum Mismatch of " +
-                                               dsChecksum + " and " + checksum);
+                 ContentDigest.asURI("SHA-1", dsChecksum) + " and " + checksum);
         }
 
         decorateContentNode(contentNode);
