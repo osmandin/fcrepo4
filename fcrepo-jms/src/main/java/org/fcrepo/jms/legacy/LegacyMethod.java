@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -271,9 +272,7 @@ public class LegacyMethod {
             c.setScheme(FEDORA_ID_SCHEME);
             c.setLabel(label);
             c.setTerm(val);
-            List<Category> categoryList = new java.util.ArrayList<Category>();
-            categoryList.add(c);
-            delegate.setCategories(categoryList);
+            delegate.setCategories(Collections.singletonList(c));
             //delegate.addCategory(FEDORA_ID_SCHEME, val, label);
         }
     }
@@ -374,11 +373,9 @@ public class LegacyMethod {
         //delegate.writeTo(writer);
         WireFeedOutput output = new WireFeedOutput();
         SyndFeed syndFeed = new SyndFeedImpl();
-        List<Entry> entriesList = new java.util.ArrayList<Entry>();
-        entriesList.add(delegate);
-        syndFeed.setEntries(entriesList);
+        syndFeed.setEntries(Collections.singletonList(delegate));
         syndFeed.setFeedType("atom_1.0");
-        Feed feed = createFeed(entriesList);
+        Feed feed = createFeed(Collections.singletonList(delegate));
 
         try {
             output.output(feed,writer);

@@ -29,6 +29,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,18 +37,6 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.nodetype.NodeType;
 import javax.jcr.observation.Event;
-
-/*import org.apache.abdera.model.Category;
-import org.apache.abdera.model.Entry;
-import org.apache.abdera.model.Person;
-import org.apache.abdera.model.Text;*/
-
-import com.sun.syndication.feed.atom.*;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
-//port com.sun.syndication.feed.synd.*;
-import com.sun.syndication.io.SyndFeedInput;
-//import com.sun.syndication.io.SyndFeedOutput;
 
 import org.fcrepo.jcr.FedoraJcrTypes;
 import org.junit.Before;
@@ -57,6 +46,10 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+
+import com.sun.syndication.feed.atom.Category;
+import com.sun.syndication.feed.atom.Content;
+import com.sun.syndication.feed.atom.Entry;
 
 @RunWith(PowerMockRunner.class)
 @PowerMockIgnore({"org.slf4j.*", "javax.xml.parsers.*", "org.apache.xerces.*"})
@@ -111,7 +104,7 @@ public class LegacyMethodTest {
        /* when(mockDelegate.getCategories(LegacyMethod.FEDORA_ID_SCHEME))
                 .thenReturn(categories);*/
         when(mockDelegate.getCategories())
-        .thenReturn(categories);
+                .thenReturn(categories);
         // construct the test object
         testObj = new LegacyMethod(mockEvent, mockSource);
     }
@@ -177,11 +170,14 @@ public class LegacyMethodTest {
                 anyString());
     }*/
 
-  /*  @Test
+    @Test
     public void testSetContent() {
         testObj.setContent("foo");
-        verify(mockDelegate).setContent("foo");
-    }*/
+        //verify(mockDelegate).setContent("foo");
+        Content content = new Content();
+        content.setValue("foo");
+        verify(mockDelegate).setContents(Collections.singletonList(content));
+    }
 
   /*  @Test
     public void testWriteTo() throws IOException {
