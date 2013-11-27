@@ -267,7 +267,6 @@ public class LegacyMethod {
             }
         }
         if (found == false) {
-            System.out.println("FOUND: FALSE! sETTING LABEL: " + label);
             Category c = new Category();
             c.setScheme(FEDORA_ID_SCHEME);
             c.setLabel(label);

@@ -95,7 +95,7 @@ public abstract class EntryFactory {
         WireFeedInput wireFeedInput = new WireFeedInput();
         WireFeed wiredFeed = wireFeedInput.build(input);
         Feed f = (Feed)wiredFeed;
-
+        //TODO return List<Entry>
         return (Entry) f.getEntries().get(0);
     }
 

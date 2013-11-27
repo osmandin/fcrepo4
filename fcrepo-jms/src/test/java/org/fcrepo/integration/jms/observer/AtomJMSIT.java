@@ -118,11 +118,9 @@ public class AtomJMSIT implements MessageListener {
             String p = null;
             for (Category cat : categories) {
                 if (cat.getLabel().equals("path")) {
-                    System.out.println("Found Category with term: " + cat.getTerm());
+                    logger.debug("Found Category with term: " + cat.getTerm());
                     path = cat.getTerm();
                     title = entry.getTitle();
-                } else {
-                    System.out.println(cat.getLabel());
                 }
             }
         }
