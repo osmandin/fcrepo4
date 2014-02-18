@@ -12,6 +12,20 @@
             "minimumBinarySizeInBytes" : 40
         }
     },
+    "externalSources" : {
+         "home-directory" : {
+                    "classname" : "org.modeshape.connector.filesystem.FileSystemConnector",
+                    "directoryPath" : "/tmp",
+    		        "readonly" : true,
+                    "addMimeTypeMixin" : true
+                },
+    	"home-directory2" : {
+                    "classname" : "org.modeshape.connector.filesystem.FileSystemConnector",
+                    "directoryPath" : "/tmp",
+    		        "readonly" : true,
+                    "addMimeTypeMixin" : true
+        }
+    },
     "security" : {
         "anonymous" : {
             "roles" : ["readonly","readwrite","admin"],

@@ -15,30 +15,29 @@
  */
 package org.modeshape.jcr;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertThat;
-
-import javax.inject.Inject;
+import org.infinispan.schematic.document.Document;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.modeshape.jcr.value.binary.BinaryStore;
-import org.modeshape.jcr.value.binary.TransientBinaryStore;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.inject.Inject;
+
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.junit.Assert.assertThat;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({ "/spring-test/repo.xml" })
-public class GetBinaryStoreIT {
+public class GetRepoConfigIT {
 
     @Inject
     javax.jcr.Repository repo;
 
     @Test
     public void testApply() {
-        final GetBinaryStore testObj = new GetBinaryStore();
-        final BinaryStore binaryStore = testObj.apply(repo);
-
-        assertThat(binaryStore, instanceOf(TransientBinaryStore.class));
+        final GetRepoConfig testObj = new GetRepoConfig();
+        final Document configDocument = testObj.apply(repo);
+        assertThat(configDocument, instanceOf(Document.class));
     }
 
 }
