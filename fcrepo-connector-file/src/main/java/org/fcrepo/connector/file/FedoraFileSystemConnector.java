@@ -30,6 +30,7 @@ import static org.modeshape.jcr.api.JcrConstants.NT_RESOURCE;
 
 import java.util.Map;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.infinispan.schematic.document.Document;
 import org.modeshape.connector.filesystem.FileSystemConnector;
 import org.modeshape.jcr.federation.spi.DocumentReader;
@@ -51,6 +52,7 @@ public class FedoraFileSystemConnector extends FileSystemConnector {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FedoraFileSystemConnector.class);
 
+    private static final LRUMap sha1Cache = new LRUMap(); //default size 100
 
     /**
      * This method returns the object/document for the node with the federated arg 'id'.
@@ -109,11 +111,19 @@ public class FedoraFileSystemConnector extends FileSystemConnector {
         }
 
         if (null == docReader.getProperty(CONTENT_DIGEST)) {
-            final BinaryValue binaryValue = getBinaryValue(docReader);
-            final String dsChecksum = binaryValue.getHexHash();
-            final String dsURI = asURI("SHA-1", dsChecksum).toString();
-
-            LOGGER.trace("Adding {} property of {} to {}", CONTENT_DIGEST, dsURI, docReader.getDocumentId());
+            final String dsURI;
+            final String docId = docReader.getDocumentId();
+            synchronized (sha1Cache) {
+                if (sha1Cache.containsKey(docId)) {
+                    dsURI = (String) sha1Cache.get(docId);
+                } else {
+                    final BinaryValue binaryValue = getBinaryValue(docReader);
+                    final String dsChecksum = binaryValue.getHexHash();
+                    dsURI = asURI("SHA-1", dsChecksum).toString();
+                    sha1Cache.put(docId, dsURI);
+                }
+            }
+            LOGGER.trace("Adding {} property of {} to {}", CONTENT_DIGEST, dsURI, docId);
             docWriter.addProperty(CONTENT_DIGEST, dsURI);
         }
 
