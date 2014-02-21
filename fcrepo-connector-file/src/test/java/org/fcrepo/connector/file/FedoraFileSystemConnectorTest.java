@@ -25,12 +25,14 @@ import org.mockito.Mock;
 import org.modeshape.jcr.ExecutionContext;
 import org.modeshape.jcr.api.nodetype.NodeTypeManager;
 import org.modeshape.jcr.cache.document.DocumentTranslator;
+import org.modeshape.jcr.federation.spi.DocumentReader;
 import org.modeshape.jcr.federation.spi.ExtraPropertiesStore;
 import org.modeshape.jcr.value.BinaryValue;
 import org.modeshape.jcr.value.NameFactory;
 import org.modeshape.jcr.value.Property;
 import org.modeshape.jcr.value.ValueFactories;
 import org.modeshape.jcr.value.basic.BasicName;
+import org.modeshape.jcr.value.basic.BasicSingleValueProperty;
 import org.slf4j.Logger;
 
 import javax.jcr.NamespaceRegistry;
@@ -43,6 +45,7 @@ import java.nio.file.Path;
 import static java.nio.file.Files.createTempDirectory;
 import static java.nio.file.Files.createTempFile;
 import static org.fcrepo.http.commons.test.util.TestHelpers.setField;
+import static org.fcrepo.jcr.FedoraJcrTypes.CONTENT_DIGEST;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
@@ -90,6 +93,9 @@ public class FedoraFileSystemConnectorTest {
 
     @Mock
     private BinaryValue binaryValue;
+
+    @Mock
+    private DocumentReader documentReader;
 
     private ExecutionContext mockContext = new ExecutionContext();
 
@@ -163,6 +169,47 @@ public class FedoraFileSystemConnectorTest {
 
         final Document doc = connector.getDocumentById("/" + tmpFile.getName());
         assertNotNull(doc);
+    }
+
+    @Test
+    public void testSha1WhenContentDigestIsCached() {
+        when(mockTranslator.getPrimaryTypeName(any(Document.class)))
+                .thenReturn(NT_RESOURCE);
+        when(mockNameFactory.create(anyString())).thenReturn(new BasicName("", tmpFile.getName()));
+        when(binaryProperty.getFirstValue()).thenReturn(binaryValue);
+        when(mockTranslator.getProperty(any(Document.class), eq(JCR_DATA)))
+                .thenReturn(binaryProperty);
+
+        final String chksum = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d";
+
+        when(mockTranslator.getProperty(any(Document.class), eq(CONTENT_DIGEST)))
+                .thenReturn(new BasicSingleValueProperty(new BasicName("", CONTENT_DIGEST.toString()),
+                                     chksum));
+
+        final String sha1 = connector.sha1(tmpFile);
+
+        assertNotNull(sha1);
+        assert(sha1.contains(chksum));
+    }
+
+    @Test
+    public void testSha1ContentDigestIsNotCached() {
+        when(mockTranslator.getPrimaryTypeName(any(Document.class)))
+                .thenReturn(NT_RESOURCE);
+        when(mockNameFactory.create(anyString())).thenReturn(new BasicName("", tmpFile.getName()));
+        when(binaryProperty.getFirstValue()).thenReturn(binaryValue);
+        when(mockTranslator.getProperty(any(Document.class), eq(JCR_DATA)))
+                .thenReturn(binaryProperty);
+
+        final String chksum = "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d";
+
+        when(mockTranslator.getProperty(any(Document.class), eq(CONTENT_DIGEST)))
+                .thenReturn(null);
+
+        final String sha1 = connector.sha1(tmpFile);
+
+        assertNotNull(sha1);
+        assert(sha1.contains(chksum));
     }
 
 }
