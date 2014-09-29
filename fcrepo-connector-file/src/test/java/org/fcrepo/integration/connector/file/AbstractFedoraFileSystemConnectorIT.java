@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -52,6 +54,7 @@ import javax.jcr.nodetype.NodeType;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.fcrepo.kernel.Datastream;
 import org.fcrepo.kernel.FedoraBinary;
 import org.fcrepo.kernel.FedoraObject;
@@ -171,8 +174,12 @@ public abstract class AbstractFedoraFileSystemConnectorIT {
 
         // Clean up files persisted in previous runs
         while (iterator.hasNext()) {
-            if (!iterator.next().delete()) {
-                fail("Unable to delete work files from a previous test run");
+            final File f = iterator.next();
+            final String path = f.getAbsolutePath();
+            try {
+                Files.delete(Paths.get(path));
+            } catch (IOException e) {
+                fail("Unable to delete work files from a previous test run" + path + ExceptionUtils.getStackTrace(e));
             }
         }
     }
