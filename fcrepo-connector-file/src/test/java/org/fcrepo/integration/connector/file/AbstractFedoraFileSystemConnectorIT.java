@@ -179,7 +179,8 @@ public abstract class AbstractFedoraFileSystemConnectorIT {
             try {
                 Files.deleteIfExists(Paths.get(path));
             } catch (IOException e) {
-                fail("Unable to delete work files from a previous test run. File=" + path + ExceptionUtils.getStackTrace(e));
+                fail("Unable to delete work files from a previous test run. File="
+                        + path + ExceptionUtils.getStackTrace(e));
             }
         }
     }
