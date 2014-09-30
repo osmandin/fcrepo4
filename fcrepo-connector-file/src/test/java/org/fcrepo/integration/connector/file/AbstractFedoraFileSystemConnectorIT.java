@@ -144,7 +144,7 @@ public abstract class AbstractFedoraFileSystemConnectorIT {
         // we configure the FedoraFileSystemFederation instances to
         // point to paths within the "target" directory.
         final File testDir1 = new File("target/test-classes/config/testing");
-        cleanUpJsonFilesFiles(testDir1);
+        //cleanUpJsonFilesFiles(testDir1);
         setProperty(PROP_TEST_DIR1, testDir1.getAbsolutePath());
 
         final File testDir2 = new File("target/test-classes/spring-test");
@@ -177,9 +177,9 @@ public abstract class AbstractFedoraFileSystemConnectorIT {
             final File f = iterator.next();
             final String path = f.getAbsolutePath();
             try {
-                Files.delete(Paths.get(path));
+                Files.deleteIfExists(Paths.get(path));
             } catch (IOException e) {
-                fail("Unable to delete work files from a previous test run" + path + ExceptionUtils.getStackTrace(e));
+                fail("Unable to delete work files from a previous test run. File=" + path + ExceptionUtils.getStackTrace(e));
             }
         }
     }
