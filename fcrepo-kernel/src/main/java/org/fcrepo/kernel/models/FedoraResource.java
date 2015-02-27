@@ -117,6 +117,7 @@ public interface FedoraResource {
      * @param sparqlUpdateStatement sparql update statement
      * @param originalTriples original triples
      * @throws MalformedRdfException if malformed rdf exception occurred
+     * @throws AccessDeniedException if access denied in updating properties
      */
     void updateProperties(final IdentifierConverter<Resource, FedoraResource> idTranslator,
                           final String sparqlUpdateStatement,
