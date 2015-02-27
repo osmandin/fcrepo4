@@ -387,6 +387,7 @@ public class FedoraLdp extends ContentExposingResource {
      * @throws InvalidChecksumException if invalid checksum exception occurred
      * @throws IOException if IO exception occurred
      * @throws MalformedRdfException if malformed rdf exception occurred
+     * @throws AccessDeniedException if access denied in creating resource
      */
     @POST
     @Consumes({MediaType.APPLICATION_OCTET_STREAM + ";qs=1001", MediaType.WILDCARD})
